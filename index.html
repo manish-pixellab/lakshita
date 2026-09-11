@@ -32,6 +32,12 @@
       <span class="brand-sub">21.09.2025 &rarr; 21.09.2026</span>
     </div>
     <div class="capsule-controls">
+      <!-- Feature 3: Emerald & Tulip Theme Switcher -->
+      <button id="themeToggleBtn" class="control-btn theme-switch-btn" title="Switch Theme: Emerald &amp; Tulip" aria-label="Toggle Emerald &amp; Tulip Theme">
+        <span class="theme-icon">🌷</span>
+        <span class="theme-label">Emerald &amp; Tulip</span>
+      </button>
+
       <!-- Feature 5: Why Devi Ji Story Button -->
       <button id="whyDeviJiBtn" class="control-btn devi-badge-btn" title="The Story Behind 'Devi Ji'" aria-label="Why Devi Ji">
         <span>🌸 Why Devi Ji?</span>
@@ -607,7 +613,7 @@
                     <span class="open-when-title">Open When... (For Our Year 2 &amp; Beyond)</span>
                     <span class="flower-symbol">&#10047;</span>
                   </div>
-                  <p class="open-when-sub">Three letters sealed with love. Tap any envelope when you need it most.</p>
+                  <p class="open-when-sub">Four letters sealed with love. Tap any envelope when you need it most.</p>
 
                   <div class="open-when-grid">
                     <!-- Envelope 1: When you miss me -->
@@ -632,6 +638,14 @@
                       <span class="mini-env-tag">Envelope 03</span>
                       <h5 class="mini-env-title">Open when you need reminding</h5>
                       <span class="mini-env-tap-hint">Tap to open &rarr;</span>
+                    </button>
+
+                    <!-- Envelope 4: Year 2 Milestone -->
+                    <button type="button" class="mini-envelope-btn year-two-env-btn" data-open-modal="miniModalYearTwo">
+                      <div class="mini-wax-seal gold-seal">✨🌷</div>
+                      <span class="mini-env-tag gold-tag">Envelope 04</span>
+                      <h5 class="mini-env-title">Open on 21.09.2027</h5>
+                      <span class="mini-env-tap-hint">Year 2 Milestone &rarr;</span>
                     </button>
                   </div>
                 </div>
@@ -1166,6 +1180,24 @@
       </div>
       <span class="mini-letter-sign">&mdash; Forever Yours, Manish</span>
       <button type="button" class="mini-dialog-done-btn" data-close="miniModalReminder">Return to Letter &hearts;</button>
+    </div>
+  </div>
+
+  <!-- Envelope 04: Year Two Milestone (21.09.2027) -->
+  <div id="miniModalYearTwo" class="mini-env-modal hidden" role="dialog" aria-modal="true" aria-labelledby="miniTitle04">
+    <div class="mini-modal-backdrop" data-close="miniModalYearTwo"></div>
+    <div class="mini-letter-dialog year-two-dialog">
+      <button class="mini-letter-close" data-close="miniModalYearTwo" aria-label="Close">&times;</button>
+      <div class="mini-letter-dialog-header">
+        <div class="mini-wax-seal gold-seal">✨🌷</div>
+        <span class="mini-env-tag gold-tag">Envelope 04 &bull; 21.09.2027</span>
+        <h4 id="miniTitle04" class="mini-dialog-title">Our Year Two &amp; Beyond <span class="pink-heart-dot">&hearts;</span></h4>
+      </div>
+      <div class="mini-letter-dialog-body">
+        <p>&ldquo;If you are reading this on or after 21 September 2027, two entire years have passed since the morning I saw you in that green kurta. And if you opened this earlier... I know you couldn't resist sneaking a peek. No matter how many days pass, how many miles separate us, or how many silly little fights we have to survive with gold &mdash; my heart is still standing right by that railing at Lake City Mall, looking only at you. Happy Year Two, Devi Ji.&rdquo;</p>
+      </div>
+      <span class="mini-letter-sign">&mdash; Forever Yours, Manish &hearts;</span>
+      <button type="button" class="mini-dialog-done-btn" data-close="miniModalYearTwo">Return to Letter &hearts;</button>
     </div>
   </div>
 

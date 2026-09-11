@@ -90,6 +90,52 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Feature 3: Emerald & Tulip Theme Switcher
+  const themeToggleBtn = document.getElementById('themeToggleBtn');
+  const bodyRootEl = document.getElementById('bodyRoot') || document.body;
+
+  function applyEmeraldTheme(isEmerald) {
+    if (isEmerald) {
+      bodyRootEl.classList.add('theme-emerald-tulip');
+      if (themeToggleBtn) {
+        themeToggleBtn.classList.add('active-emerald');
+        themeToggleBtn.innerHTML = '<span class="theme-icon">✨</span><span class="theme-label">Classic Burgundy</span>';
+      }
+    } else {
+      bodyRootEl.classList.remove('theme-emerald-tulip');
+      if (themeToggleBtn) {
+        themeToggleBtn.classList.remove('active-emerald');
+        themeToggleBtn.innerHTML = '<span class="theme-icon">🌷</span><span class="theme-label">Emerald &amp; Tulip</span>';
+      }
+    }
+  }
+
+  // Check saved theme preference
+  try {
+    const savedTheme = localStorage.getItem('capsuleTheme');
+    if (savedTheme === 'emerald-tulip') {
+      applyEmeraldTheme(true);
+    }
+  } catch (e) {}
+
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+      const isCurrentlyEmerald = bodyRootEl.classList.contains('theme-emerald-tulip');
+      const willBeEmerald = !isCurrentlyEmerald;
+      applyEmeraldTheme(willBeEmerald);
+      try {
+        localStorage.setItem('capsuleTheme', willBeEmerald ? 'emerald-tulip' : 'classic');
+      } catch (e) {}
+
+      triggerHaptic([40, 60]);
+      window.capsuleAudio.playSecretChime();
+      const rect = themeToggleBtn.getBoundingClientRect();
+      if (window.spawnTulipSparks) {
+        window.spawnTulipSparks(rect.left + rect.width / 2, rect.top + rect.height / 2);
+      }
+    });
+  }
+
   // ==========================================================
   // FLOATING FLOWER PETALS & REDDISH-PINK HEARTS CANVAS
   // ==========================================================
