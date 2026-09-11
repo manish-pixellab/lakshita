@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For Lakshita (Devi Ji) — A Memory Capsule</title>
+  
+  <!-- Romantic & Refined Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Three.js for true 3D romantic elements -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body class="theme-morning" id="bodyRoot">
+  <!-- Dynamic Atmosphere Layer (Morning -> Afternoon -> Cinema -> Twilight -> Starry Midnight) -->
+  <div class="ambient-noise" id="ambientNoise"></div>
+  <div class="starry-sky-layer hidden" id="starrySkyLayer"></div>
+  
+  <!-- 2D & 3D Interactive Canvas Layers -->
+  <canvas id="threeCanvas" class="three-background-canvas"></canvas>
+  <canvas id="petalCanvas" class="petal-flower-canvas"></canvas>
+  <div class="vignette-overlay"></div>
+
+  <!-- Audio / Music Controller & Secret Lock & Story Tooltip -->
+  <header class="capsule-header">
+    <div class="capsule-brand">
+      <span class="brand-monogram">M <span class="heart-pulse-icon">&hearts;</span> L</span>
+      <span class="brand-sub">21.09.2025 &rarr; 21.09.2026</span>
+    </div>
+    <div class="capsule-controls">
+      <!-- Feature 5: Why Devi Ji Story Button -->
+      <button id="whyDeviJiBtn" class="control-btn devi-badge-btn" title="The Story Behind 'Devi Ji'" aria-label="Why Devi Ji">
+        <span>🌸 Why Devi Ji?</span>
+      </button>
+
+      <button id="openSecretVaultBtn" class="control-btn vault-btn" title="Secret Passcode Vault" aria-label="Unlock Secret">
+        <span class="vault-lock-icon">&#128274;</span>
+        <span class="sound-label">11:47:03</span>
+      </button>
+
+      <button id="soundToggleBtn" class="control-btn" title="Toggle Soft Ambient Melodies" aria-label="Toggle sound">
+        <svg class="icon-music" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M9 18V5l12-2v13"></path>
+          <circle cx="6" cy="18" r="3"></circle>
+          <circle cx="18" cy="16" r="3"></circle>
+        </svg>
+        <span class="sound-label">Atmosphere</span>
+      </button>
+      <div id="activeScreenIndicator" class="screen-indicator">Screen 01 / 12</div>
+    </div>
+  </header>
+
+  <main id="appContainer" class="capsule-main">
+
+    <!-- ========================================================
+         SCREEN 01 — THE DAY
+         ======================================================== -->
+    <section id="screen01" class="capsule-screen active">
+      <div class="screen-inner center-content tilt-3d-card" data-tilt="true">
+        <!-- Floating Floral Wreath Accent -->
+        <div class="floral-corner top-left">
+          <svg viewBox="0 0 80 80" class="floral-svg">
+            <path d="M10,40 Q25,20 45,25 Q55,10 65,30 Q45,35 40,55 Q25,45 10,40 Z" fill="#FFAFCC" opacity="0.6"/>
+            <circle cx="45" cy="25" r="5" fill="#FF4D6D" opacity="0.85"/>
+            <circle cx="30" cy="40" r="4" fill="#C9184A" opacity="0.75"/>
+          </svg>
+        </div>
+        <div class="floral-corner top-right">
+          <svg viewBox="0 0 80 80" class="floral-svg flip-x">
+            <path d="M10,40 Q25,20 45,25 Q55,10 65,30 Q45,35 40,55 Q25,45 10,40 Z" fill="#FFAFCC" opacity="0.6"/>
+            <circle cx="45" cy="25" r="5" fill="#FF4D6D" opacity="0.85"/>
+            <circle cx="30" cy="40" r="4" fill="#C9184A" opacity="0.75"/>
+          </svg>
+        </div>
+
+        <div class="memory-stamp">
+          <span class="flower-symbol">&#10047;</span> ARCHIVE: TEMPORAL SEARCH <span class="flower-symbol">&#10047;</span>
+        </div>
+        
+        <div class="clock-deck card-layer-3d">
+          <div class="floating-hearts-cluster">
+            <span class="mini-heart h1">&hearts;</span>
+            <span class="mini-heart h2">&hearts;</span>
+            <span class="mini-heart h3">&hearts;</span>
+          </div>
+
+          <div class="clock-label">Searching the timeline...</div>
+          <div id="dateShuffleDisplay" class="hero-date">21 SEPTEMBER 2025</div>
+          <div class="clock-sub">A date etched in memory</div>
+        </div>
+
+        <!-- 3D Interactive Mini Crystal Heart Viewport -->
+        <div id="hero3DContainer" class="hero-3d-crystal-stage" title="Interactive 3D Glass Heart — Drag to rotate"></div>
+
+        <div class="action-dock">
+          <button id="stopClockBtn" class="capsule-btn primary-btn">
+            <span class="btn-flare"></span>
+            STOP THE CLOCK
+          </button>
+        </div>
+
+        <div id="screen01Reveal" class="reveal-moment hidden">
+          <div class="golden-separator">
+            <span class="separator-heart">&hearts;</span>
+          </div>
+          <h2 class="prompt-text">Have You Remembered?</h2>
+          <button id="screen01NextBtn" class="capsule-btn romance-btn">
+            YES, I REMEMBER
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SCREEN 02 — THE JOURNEY (Sojat Road -> Udaipur)
+         ======================================================== -->
+    <section id="screen02" class="capsule-screen">
+      <div class="screen-inner journey-layout">
+        <div class="screen-header-card">
+          <span class="meta-tag"><span class="flower-symbol">&#10048;</span> THE JOURNEY</span>
+          <h2 class="journey-route">SOJAT ROAD <span class="route-arrow">&rarr;</span> UDAIPUR</h2>
+          <p class="journey-sub">Morning skies of Rajasthan &bull; September 21, 2025</p>
+        </div>
+
+        <!-- 2D Illustrated Landscape Canvas / Scene with 3D-Tilt Frame -->
+        <div class="road-scene-wrapper tilt-3d-card" data-tilt="true">
+          <div class="landscape-sky">
+            <div class="dawn-sun"></div>
+            <div class="cloud cloud-1"></div>
+            <div class="cloud cloud-2"></div>
+            <div class="aravalli-hills"></div>
+          </div>
+          
+          <div class="road-track">
+            <div class="road-ribbon">
+              <div class="road-dash-line"></div>
+            </div>
+            
+            <!-- Moving 2D Car Illustration -->
+            <div id="journeyCar" class="illustrated-car">
+              <svg viewBox="0 0 160 70" class="car-svg">
+                <defs>
+                  <linearGradient id="carGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#3E1F24" />
+                    <stop offset="100%" stop-color="#7B2C37" />
+                  </linearGradient>
+                </defs>
+                <path d="M15 50 Q 25 35 45 32 L 65 20 Q 95 18 115 28 L 140 40 Q 155 45 155 52 L 5 52 Z" fill="url(#carGrad)" />
+                <path d="M68 22 L 93 22 Q 107 24 112 30 L 125 38 L 68 38 Z" fill="#F7F3EB" opacity="0.8" />
+                <path d="M38 32 L 64 32 L 64 40 L 28 40 Z" fill="#F7F3EB" opacity="0.6" />
+                <circle cx="42" cy="52" r="12" fill="#1F1617" />
+                <circle cx="42" cy="52" r="6" fill="#CBB279" />
+                <circle cx="124" cy="52" r="12" fill="#1F1617" />
+                <circle cx="124" cy="52" r="6" fill="#CBB279" />
+                <polygon points="148,45 160,40 160,55 148,50" fill="#FFEAA7" opacity="0.7" />
+              </svg>
+              <div class="wheel-dust"></div>
+            </div>
+
+            <!-- Road Milestones -->
+            <div class="milestone-marker m1">Sojat Rd</div>
+            <div class="milestone-marker m2">Pali Valley</div>
+            <div class="milestone-marker m3">Desuri Pass</div>
+            <div class="milestone-marker m4">Udaipur 10km</div>
+          </div>
+        </div>
+
+        <!-- Handwritten Diary Thoughts Deck (Animated with Typewriter Ink) -->
+        <div class="journey-thoughts-container">
+          <div id="thought01" class="diary-thought-bubble">
+            <span class="quote-mark">&ldquo;</span>
+            <p class="thought-body typewriter-target" data-text="Oh god finally its the day"></p>
+            <span class="thought-flower">&#10047;</span>
+          </div>
+          <div id="thought02" class="diary-thought-bubble">
+            <span class="quote-mark">&ldquo;</span>
+            <p class="thought-body typewriter-target" data-text="Yarr, feeling soo exited, continuesly taking with yogesh, about you, about me"></p>
+            <span class="thought-flower">&#10048;</span>
+          </div>
+          <div id="thought03" class="diary-thought-bubble highlight">
+            <span class="quote-mark">&ldquo;</span>
+            <p class="thought-body typewriter-target" data-text="Manish!! Its the time, for which you have imagined a lot"></p>
+            <span class="thought-flower heart-fl">&hearts;</span>
+          </div>
+        </div>
+
+        <div class="journey-actions">
+          <button id="screen02NextBtn" class="capsule-btn primary-btn hidden">
+            CONTINUE
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SCREEN 03 — LAKE CITY MALL (+ Shake-to-Develop Polaroid)
+         ======================================================== -->
+    <section id="screen03" class="capsule-screen">
+      <div class="screen-inner mall-layout">
+        <div class="mall-backdrop tilt-3d-card" data-tilt="true">
+          <div class="mall-atrium">
+            <div class="mall-balcony-top">
+              <div class="mall-railing"></div>
+              
+              <!-- Silhouette of girl in Green Kurta -->
+              <div id="mallKurtaGirl" class="kurta-girl-silhouette">
+                <div class="emerald-glow-aura"></div>
+                <svg viewBox="0 0 80 120" class="kurta-svg">
+                  <defs>
+                    <linearGradient id="emeraldKurta" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#1C5243" />
+                      <stop offset="60%" stop-color="#2E7D63" />
+                      <stop offset="100%" stop-color="#143B30" />
+                    </linearGradient>
+                  </defs>
+                  <path d="M40 25 C32 25 28 35 28 48 C28 65 32 80 34 90 L46 90 C48 80 52 65 52 48 C52 35 48 25 40 25 Z" fill="#1C1A1B" />
+                  <path d="M30 46 Q40 50 50 46 L56 100 Q40 108 24 100 Z" fill="url(#emeraldKurta)" />
+                  <path d="M26 48 Q35 70 30 102" stroke="#D4AF37" stroke-width="1.5" fill="none" />
+                </svg>
+                <div class="curious-tag">Devi Ji <span class="heart-inline">&hearts;</span></div>
+              </div>
+            </div>
+            
+            <div class="mall-lower-deck">
+              <div class="time-stamp-badge">11:45 AM &bull; Lake City Mall, Udaipur</div>
+              <p class="mall-narrative-cue">Searching through the corridor...</p>
+            </div>
+          </div>
+        </div>
+
+
+
+        <!-- Sudden Notification Pop-Up with 3D Depth -->
+        <div id="phoneNotification" class="phone-notification-card">
+          <div class="notif-header">
+            <div class="notif-avatar">D</div>
+            <div class="notif-meta">
+              <span class="notif-sender">Devi jiii <span class="notif-heart">&hearts;</span></span>
+              <span class="notif-time">Just now</span>
+            </div>
+          </div>
+          <div class="notif-body">
+            <p class="notif-text">&ldquo;hmne tuje dekh lia&rdquo;</p>
+          </div>
+        </div>
+
+        <!-- Phone Chat Interface to Send Reply -->
+        <div id="chatInteractionBox" class="chat-mockup-wrapper hidden tilt-3d-card" data-tilt="true">
+          <div class="chat-header">
+            <div class="chat-status-dot"></div>
+            <div class="chat-contact-info">
+              <span class="chat-name">Devi Jiii <span class="pink-heart-dot">&hearts;</span></span>
+              <span class="chat-status">online &bull; Lake City Mall</span>
+            </div>
+          </div>
+          <div class="chat-messages-area">
+            <div class="chat-bubble incoming">
+              <span class="bubble-text">hmne tuje dekh lia</span>
+              <span class="bubble-time">11:45 AM</span>
+            </div>
+            <div id="outgoingBubble" class="chat-bubble outgoing hidden">
+              <span class="bubble-text">I Spoted My Devi ji &hearts;</span>
+              <span class="bubble-time">11:46 AM &check;&check;</span>
+            </div>
+          </div>
+          <div id="chatInputBar" class="chat-input-bar">
+            <div class="chat-input-placeholder">I Spoted My Devi ji</div>
+            <button id="sendChatBtn" class="send-btn">
+              <span>SEND</span>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="mall-action-row">
+          <button id="screen03NextBtn" class="capsule-btn romance-btn hidden">
+            CONTINUE
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SCREEN 04 — THE FIRST LOOK (11:47:03)
+         ======================================================== -->
+    <section id="screen04" class="capsule-screen">
+      <div class="screen-inner portrait-screen">
+        <div class="first-look-stage">
+          
+          <!-- Portrait Reveal Vignette with 3D Depth Tilt -->
+          <div class="art-portrait-container tilt-3d-card" data-tilt="true">
+            <div class="soft-backlight"></div>
+            
+            <!-- Floral Garland Surrounding the Portrait -->
+            <div class="portrait-floral-wreath">
+              <span class="wreath-petals p1">&hearts;</span>
+              <span class="wreath-petals p2">&#10047;</span>
+              <span class="wreath-petals p3">&hearts;</span>
+              <span class="wreath-petals p4">&#10048;</span>
+            </div>
+
+            <!-- Layer 1: Kali Zulfe (Silken Dark Hair) -->
+            <div id="revealHair" class="portrait-layer layer-hair">
+              <svg viewBox="0 0 300 380" class="portrait-svg">
+                <path d="M70,80 C40,160 30,240 50,340 C65,345 80,310 75,270 C100,320 120,330 135,350 C110,250 100,180 110,120 Z" fill="#151214" opacity="0.95" />
+                <path d="M230,80 C260,160 270,240 250,340 C235,345 220,310 225,270 C200,320 180,330 165,350 C190,250 200,180 190,120 Z" fill="#151214" opacity="0.95" />
+                <path d="M80,100 Q150,30 220,100 Q200,60 150,55 Q100,60 80,100 Z" fill="#191517" />
+              </svg>
+              <div class="reveal-tag">kali zulfe</div>
+            </div>
+
+            <!-- Layer 2: Her Forehead -->
+            <div id="revealForehead" class="portrait-layer layer-forehead">
+              <svg viewBox="0 0 300 380" class="portrait-svg">
+                <path d="M90,100 C100,75 200,75 210,100 C205,145 95,145 90,100 Z" fill="#F8E5D8" opacity="0.9" />
+              </svg>
+              <div class="reveal-tag">her forehead</div>
+            </div>
+
+            <!-- Layer 3: The Small Choti Bindi -->
+            <div id="revealBindi" class="portrait-layer layer-bindi">
+              <div class="choti-bindi"></div>
+              <div class="reveal-tag">the small choti bindi</div>
+            </div>
+
+            <!-- Layer 4: Her Eyes -->
+            <div id="revealEyes" class="portrait-layer layer-eyes">
+              <svg viewBox="0 0 300 120" class="eyes-svg">
+                <defs>
+                  <radialGradient id="irisGaze" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#4A2E18" />
+                    <stop offset="70%" stop-color="#24140D" />
+                    <stop offset="100%" stop-color="#0E0705" />
+                  </radialGradient>
+                </defs>
+                <path d="M60,60 Q95,30 130,60 Q95,85 60,60 Z" fill="#FAF6EE" stroke="#3E1F24" stroke-width="2" />
+                <circle cx="95" cy="58" r="16" fill="url(#irisGaze)" />
+                <circle cx="98" cy="54" r="5" fill="#FFFFFF" opacity="0.9" />
+                <path d="M55,60 Q95,25 135,55" stroke="#1A1516" stroke-width="3" fill="none" stroke-linecap="round" />
+                <path d="M58,35 Q95,20 132,32" stroke="#251A1D" stroke-width="3.5" fill="none" stroke-linecap="round" />
+
+                <path d="M170,60 Q205,30 240,60 Q205,85 170,60 Z" fill="#FAF6EE" stroke="#3E1F24" stroke-width="2" />
+                <circle cx="205" cy="58" r="16" fill="url(#irisGaze)" />
+                <circle cx="208" cy="54" r="5" fill="#FFFFFF" opacity="0.9" />
+                <path d="M165,55 Q205,25 245,60" stroke="#1A1516" stroke-width="3" fill="none" stroke-linecap="round" />
+                <path d="M168,32 Q205,20 242,35" stroke="#251A1D" stroke-width="3.5" fill="none" stroke-linecap="round" />
+              </svg>
+              <div class="reveal-tag">her eyes</div>
+            </div>
+          </div>
+
+          <!-- Exact Remembered Clock Sequence -->
+          <div class="freeze-clock-deck">
+            <div id="frozenSecondsTimer" class="frozen-timer">11:47:01</div>
+            <div id="frozenMomentSub" class="frozen-subtitle">The moment Manish remembers.</div>
+          </div>
+        </div>
+
+        <div id="firstLookProceedPrompt" class="soft-proceed-cue hidden">
+          <button id="screen04NextBtn" class="capsule-btn subtle-btn">
+            Remembering...
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SCREEN 05 — THE MOVIE (Baaghi 4)
+         ======================================================== -->
+    <section id="screen05" class="capsule-screen">
+      <div class="screen-inner cinema-screen">
+        <div class="cinema-atmosphere tilt-3d-card" data-tilt="true">
+          <div class="projector-light-cone"></div>
+          <div class="cinema-screen-canvas">
+            <div class="movie-film-title">BAAGHI 4</div>
+            <div class="faint-film-grain"></div>
+          </div>
+          
+          <div class="cinema-seats-row">
+            <div class="seat seat-1"></div>
+            <div class="seat seat-2 highlight-seat">
+              <span class="seat-badge">Her <span class="pink-heart-dot">&hearts;</span></span>
+            </div>
+            <div class="seat seat-3 highlight-seat">
+              <span class="seat-badge">Manish</span>
+            </div>
+            <div class="seat seat-4"></div>
+          </div>
+        </div>
+
+        <!-- Poetic Sequential Thoughts -->
+        <div class="cinema-script-deck">
+          <p class="cine-thought t1">&ldquo;We went to watch a movie.&rdquo;</p>
+          <p class="cine-thought t2">&ldquo;I remember absolutely nothing.&rdquo;</p>
+          <p class="cine-thought t3">&ldquo;Okay... that’s not completely true.&rdquo;</p>
+          <p class="cine-thought t4">&ldquo;I remember you.&rdquo;</p>
+          <p class="cine-thought t5">&ldquo;You playing with your hair.&rdquo;</p>
+          <p class="cine-thought t6">&ldquo;Your expressions.&rdquo;</p>
+          <p class="cine-thought t7">&ldquo;Your eyes.&rdquo;</p>
+          <p class="cine-thought t8">&ldquo;Every little movement.&rdquo;</p>
+          
+          <div class="cine-climax t9">
+            <span class="gold-quote">&ldquo;</span>
+            <h3>I came to watch a movie. Somehow, I spent the entire movie watching my Devi Ji.</h3>
+          </div>
+        </div>
+
+
+        <div class="cinema-action-row">
+          <button id="screen05NextBtn" class="capsule-btn romance-btn hidden">
+            CONTINUE
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SCREEN 06 — THE MOMENT I WISH WAS DIFFERENT
+         ======================================================== -->
+    <section id="screen06" class="capsule-screen">
+      <div class="screen-inner quiet-screen">
+        <div class="quiet-vignette tilt-3d-card" data-tilt="true">
+          <div class="solitary-flame" id="interactiveFlame" title="Touch the flame gently">
+            <div class="candle-wick"></div>
+            <div class="candle-glow" id="candleGlow"></div>
+            <span class="flame-touch-hint">touch flame gently</span>
+          </div>
+
+          <!-- Interactive Flame Reassurance Whisper Card -->
+          <div class="flame-whisper-card hidden" id="flameWhisperCard">
+            <span class="flame-heart-icon">&hearts;</span>
+            <p class="whisper-reassurance">&ldquo;No matter how much we shook in that moment, I'd still choose to stand right there beside you.&rdquo;</p>
+            <span class="whisper-sign">— Manish</span>
+          </div>
+
+          <div class="quiet-confession-deck">
+            <p class="quiet-line q1">There was also a moment I wish had been different.</p>
+            <p class="quiet-line q2">Something happened.</p>
+            <p class="quiet-line q3">And I started shaking.</p>
+            <p class="quiet-line q4">I’m sorry.</p>
+            <p class="quiet-line q5">I know I disappointed you.</p>
+          </div>
+
+          <div class="quiet-action-row">
+            <button id="screen06NextBtn" class="capsule-btn subtle-btn">
+              CONTINUE
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SCREEN 07 — THE LITTLE FIGHT & KINTSUGI HEART
+         ======================================================== -->
+    <section id="screen07" class="capsule-screen">
+      <div class="screen-inner fight-screen">
+        <div class="kintsugi-vessel-stage">
+          <div class="glass-heart-container tilt-3d-card" data-tilt="true" id="kintsugiHeartBox">
+            <svg viewBox="0 0 200 180" class="glass-heart-svg">
+              <defs>
+                <linearGradient id="glassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="rgba(247, 243, 235, 0.55)" />
+                  <stop offset="100%" stop-color="rgba(255, 175, 204, 0.35)" />
+                </linearGradient>
+              </defs>
+              <path d="M100 160 C 20 105, 10 45, 60 20 C 85 8, 95 25, 100 40 C 105 25, 115 8, 140 20 C 190 45, 180 105, 100 160 Z" 
+                    fill="url(#glassGrad)" stroke="rgba(203, 178, 121, 0.45)" stroke-width="2" />
+              
+              <!-- The Crack (Repaired with Champagne-Gold Kintsugi Lacquer) -->
+              <path id="kintsugiCrack" class="kintsugi-gold-seam" 
+                    d="M 100 40 L 92 65 L 108 85 L 94 115 L 103 145" 
+                    stroke="#D8B26E" stroke-width="3" stroke-linecap="round" fill="none" />
+            </svg>
+            <div class="repair-hint" id="kintsugiHint">Touch gently to mend with gold</div>
+          </div>
+
+          <div class="fight-dialogue-deck">
+            <p class="fight-line">&ldquo;Of course... we also fought.&rdquo;</p>
+            <p class="fight-line">&ldquo;I know I disappointed you.&rdquo;</p>
+            <p class="fight-line">&ldquo;I’m sorry.&rdquo;</p>
+            <p class="fight-line highlight-gold">&ldquo;But I know we’ll fix it.&rdquo;</p>
+            <p class="fight-line">&ldquo;Because life is long.&rdquo;</p>
+            <p class="fight-line">&ldquo;We’re going to have a lot of stupid little fights with each other.&rdquo;</p>
+            <p class="fight-line promise-line">&ldquo;I hope we survive every single one.&rdquo;</p>
+          </div>
+        </div>
+
+        <div class="fight-action-row">
+          <button id="screen07NextBtn" class="capsule-btn primary-btn hidden">
+            CONTINUE
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SCREEN 08 — THE REWIND (Direct from Fight)
+         ======================================================== -->
+    <section id="screen08" class="capsule-screen">
+      <div class="screen-inner rewind-screen">
+        <div class="rewind-vortex tilt-3d-card" data-tilt="true">
+          <div class="rewind-clock-counter" id="rewindClock">21.09.2025</div>
+          <div class="rewind-trail-graphics">
+            <div class="reverse-film-strip"></div>
+            <div class="reverse-road-vector"></div>
+          </div>
+          <p class="rewind-caption">Everything begins moving backward...</p>
+          <p class="rewind-subcaption">Roads reverse. The theater empties. Clocks turn counter-clockwise.</p>
+
+          <!-- The Emerald Particle That Refuses to Rewind -->
+          <div id="stubbornEmeraldParticle" class="stubborn-emerald-particle">
+            <div class="emerald-core"></div>
+            <div class="emerald-forward-arrow">&rarr;</div>
+            <span class="particle-note">One piece moves forward.</span>
+          </div>
+        </div>
+
+        <div class="rewind-action-row">
+          <button id="screen08NextBtn" class="capsule-btn romance-btn hidden">
+            ARRIVE AT THE LETTER
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SCREEN 09 — THE LETTER (+ Devi Ji's Reply Feature)
+         ======================================================== -->
+    <section id="screen09" class="capsule-screen">
+      <div class="screen-inner letter-screen">
+        <div class="letter-preface">
+          <span class="script-subtitle">Preserved for 365 days <span class="heart-pulse-icon">&hearts;</span></span>
+          <h2 class="letter-lead">&ldquo;I left one thing for you.&rdquo;</h2>
+        </div>
+
+        <!-- Handcrafted Envelope Component (Stationary, No Motion) -->
+        <div class="envelope-stage" id="envelopeWrapper">
+          <div class="envelope-body" id="envelopeBody">
+            <div class="envelope-back-flap" id="envelopeFlap"></div>
+            <div class="envelope-pocket"></div>
+            
+            <!-- Breakable Wax Seal on Front -->
+            <div class="envelope-front-seal">
+              <div class="wax-seal-monogram" id="waxSealBtn" title="Press to crack the seal and open">
+                <span class="monogram-text">M &rarr; L</span>
+                <div class="seal-crack-overlay hidden" id="sealCrackOverlay"></div>
+              </div>
+              <div class="envelope-date-mark">21.09.2026</div>
+              <span class="seal-press-hint">Press wax seal to break &amp; open</span>
+            </div>
+
+            <!-- The Parchment Letter Paper (Stationary Modal, Smooth Fade-in, No Motion) -->
+            <div class="parchment-sheet" id="parchmentSheet">
+              <button id="closeLetterBtn" class="parchment-close-btn" aria-label="Close Letter" title="Close letter">&times;</button>
+              <div class="parchment-texture"></div>
+              <div class="parchment-floral-border"></div>
+
+              <div class="letter-content-scroll">
+                <div class="letter-header-row">
+                  <span class="letter-date">21 September 2026</span>
+                  <span class="letter-salutation">My Dearest Devi Ji <span class="pink-heart-dot">&hearts;</span>,</span>
+                </div>
+
+                <!-- Interactive Pressed Keepsake Tulip pinned to the letter -->
+                <div class="pressed-tulip-card" id="pressedTulipCard" title="Touch Manish's pressed tulip for you">
+                  <div class="pressed-tulip-inner">
+                    <span class="pressed-tulip-icon">🌷</span>
+                    <div class="pressed-tulip-meta">
+                      <span class="pressed-tulip-title">A Pressed Tulip for Devi Ji</span>
+                      <span class="pressed-tulip-sub">tap to read Manish's note &hearts;</span>
+                    </div>
+                  </div>
+                  <div class="pressed-tulip-whisper hidden" id="pressedTulipWhisper">
+                    <p>&ldquo;I pressed this tulip into our letter for you. Seasons may change, but this one will never fade &mdash; just like how I feel about you.&rdquo;</p>
+                    <span class="whisper-sign">&mdash; Forever, Manish &hearts;</span>
+                  </div>
+                </div>
+
+                <div class="letter-body-text" id="letterBodyText">
+                  <p>When you read this, exactly 365 days will have passed since the morning I left Sojat Road with a racing heart, continuously talking to Yogesh, wondering what seeing you in person would really feel like.</p>
+                  <p>I came to Udaipur thinking I was going to watch a movie. But from the second my eyes found that green kurta by the railing at 11:47, and the minute the lights went down inside that theater, the world shrank into just you.</p>
+                  <p>We’ve had our silences, our shaking moments, and our silly little fights. But every single day since then has only confirmed what I felt that afternoon: there is nobody else I would rather survive every little fight with, and no one else I would rather watch.</p>
+                  <p>Thank you for letting me remember you like this.</p>
+                </div>
+
+                <div class="letter-signature-block">
+                  <p class="signature-warmth">Forever yours,</p>
+                  <p class="signature-name">Manish</p>
+                </div>
+
+                <!-- Hidden P.S. (Easter Egg) -->
+                <div class="letter-ps-secret" id="letterSecretPS">
+                  <div class="ps-divider"></div>
+                  <p class="ps-text">&ldquo;P.S. You were supposed to find this.&rdquo;</p>
+                  <p class="ps-clock-hint">&ldquo;Look at the clock.&rdquo;</p>
+                </div>
+
+                <!-- Feature 4: "Open When..." Future Letters -->
+                <div class="open-when-section" id="openWhenSection">
+                  <div class="open-when-header">
+                    <span class="flower-symbol">&#10047;</span>
+                    <span class="open-when-title">Open When... (For Our Year 2 &amp; Beyond)</span>
+                    <span class="flower-symbol">&#10047;</span>
+                  </div>
+                  <p class="open-when-sub">Three letters sealed with love. Tap any envelope when you need it most.</p>
+
+                  <div class="open-when-grid">
+                    <!-- Envelope 1: When you miss me -->
+                    <button type="button" class="mini-envelope-btn" data-open-modal="miniModalMissMe">
+                      <div class="mini-wax-seal">&hearts;</div>
+                      <span class="mini-env-tag">Envelope 01</span>
+                      <h5 class="mini-env-title">Open when you miss me</h5>
+                      <span class="mini-env-tap-hint">Tap to open &rarr;</span>
+                    </button>
+
+                    <!-- Envelope 2: When we fight -->
+                    <button type="button" class="mini-envelope-btn" data-open-modal="miniModalFight">
+                      <div class="mini-wax-seal">&hearts;</div>
+                      <span class="mini-env-tag">Envelope 02</span>
+                      <h5 class="mini-env-title">Open when we fight</h5>
+                      <span class="mini-env-tap-hint">Tap to open &rarr;</span>
+                    </button>
+
+                    <!-- Envelope 3: When you need reminding -->
+                    <button type="button" class="mini-envelope-btn" data-open-modal="miniModalReminder">
+                      <div class="mini-wax-seal">&hearts;</div>
+                      <span class="mini-env-tag">Envelope 03</span>
+                      <h5 class="mini-env-title">Open when you need reminding</h5>
+                      <span class="mini-env-tap-hint">Tap to open &rarr;</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Feature 1: Devi Ji's Reply Note Box -->
+                <div class="devi-reply-box" id="deviReplyBox">
+                  <div class="reply-header">
+                    <span class="flower-symbol">&#10047;</span>
+                    <span class="reply-title">A Note from Devi Ji to Manish</span>
+                    <span class="flower-symbol">&#10047;</span>
+                  </div>
+                  <p class="reply-sub">Write your thoughts back into our time capsule...</p>
+                  <textarea id="deviReplyText" class="devi-reply-textarea" placeholder="Dear Manish, reading this made me..."></textarea>
+                  <div class="reply-actions">
+                    <button id="sealReplyBtn" class="capsule-btn romance-btn">SEAL MY REPLY &hearts;</button>
+                    <button id="whatsappReplyBtn" class="capsule-btn subtle-btn hidden">SEND TO MANISH</button>
+                  </div>
+                  <div id="replySavedStatus" class="reply-status-msg hidden">&ldquo;Your reply has been sealed into the time capsule forever.&rdquo; &hearts;</div>
+                </div>
+
+                <!-- Easy Next Button inside the letter -->
+                <div class="letter-next-action-row">
+                  <button id="letterContinueBtn" class="capsule-btn primary-btn">
+                    WANT TO KNOW THE EASTER EGGS? &rarr;
+                  </button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dimming Backdrop behind Letter -->
+        <div id="letterBackdrop" class="letter-modal-backdrop hidden"></div>
+
+        <div class="letter-action-row">
+          <button id="openLetterBtn" class="capsule-btn romance-btn">
+            OPEN THE LETTER
+          </button>
+          <button id="screen09NextBtn" class="capsule-btn primary-btn hidden">
+            WANT TO KNOW THE EASTER EGGS? &rarr;
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SCREEN 10 — THE THINGS I HID (15 Interactive Easter Eggs)
+         ======================================================== -->
+    <section id="screen10" class="capsule-screen">
+      <div class="screen-inner easter-eggs-screen">
+        <div class="easter-header">
+          <span class="easter-badge"><span class="flower-symbol">&#10047;</span> THE ARCHIVE OF SECRETS <span class="flower-symbol">&#10047;</span></span>
+          <h2 class="easter-title">The Things I Hid</h2>
+          <p class="easter-sub">15 small moments planted across the journey. Tap to uncover each one.</p>
+        </div>
+
+        <div class="secrets-grid" id="secretsGrid">
+          <!-- 1. YOU STOPPED THE DAY -->
+          <div class="secret-card tilt-3d-card" data-tilt="true" data-egg="1">
+            <div class="egg-num">01</div>
+            <div class="egg-label">YOU STOPPED THE DAY</div>
+            <div class="egg-detail">Connects the opening STOP THE CLOCK interaction to the frozen moment at 11:47:03.</div>
+          </div>
+
+          <!-- 2. THE GREEN REFLECTION -->
+          <div class="secret-card tilt-3d-card" data-tilt="true" data-egg="2">
+            <div class="egg-num">02</div>
+            <div class="egg-label">THE GREEN REFLECTION</div>
+            <div class="egg-detail">A subtle emerald reflection cast along the Lake City Mall railing.</div>
+          </div>
+
+          <!-- 3. THE FROZEN SECOND -->
+          <div class="secret-card tilt-3d-card" data-tilt="true" data-egg="3">
+            <div class="egg-num">03</div>
+            <div class="egg-label">THE FROZEN SECOND</div>
+            <div class="egg-detail">In the clock sequence of that day, 11:47:03 was carved out of ordinary time and held forever.</div>
+          </div>
+
+          <!-- 4. THE CLOCK THAT NEVER MOVED -->
+          <div class="secret-card tilt-3d-card" data-tilt="true" data-egg="4">
+            <div class="egg-num">04</div>
+            <div class="egg-label">THE CLOCK THAT NEVER MOVED</div>
+            <div class="egg-detail">One invisible clock in Manish's heart is permanently frozen at 11:47:03.</div>
+          </div>
+
+          <!-- 5. 2025 MANISH -->
+          <div class="secret-card tilt-3d-card" data-tilt="true" data-egg="5">
+            <div class="egg-num">05</div>
+            <div class="egg-label">2025 MANISH</div>
+            <div class="egg-detail">ARCHIVE SUBJECT / MANISH &bull; CREATED — 21.09.2025: &ldquo;I didn't know who I'd be one year later. I only knew I wanted you to see this.&rdquo;</div>
+          </div>
+
+          <!-- 6. THE ENVELOPE -->
+          <div class="secret-card tilt-3d-card" data-tilt="true" data-egg="6">
+            <div class="egg-num">06</div>
+            <div class="egg-label">THE ENVELOPE</div>
+            <div class="egg-detail">OPENED — 21.09.2026. Sealed on one autumn day, opened exactly 365 days later.</div>
+          </div>
+
+          <!-- 7. THE SECRET P.S. -->
+          <div class="secret-card tilt-3d-card" data-tilt="true" data-egg="7">
+            <div class="egg-num">07</div>
+            <div class="egg-label">THE SECRET P.S.</div>
+            <div class="egg-detail">&ldquo;P.S. You were supposed to find this.&rdquo; — linking her eyes directly back to the clock.</div>
+          </div>
+
+          <!-- 8. THE PARTICLE THAT REFUSED TO REWIND -->
+          <div class="secret-card tilt-3d-card" data-tilt="true" data-egg="8">
+            <div class="egg-num">08</div>
+            <div class="egg-label">THE PARTICLE THAT REFUSED TO REWIND</div>
+            <div class="egg-detail">When everything reversed in time, the emerald particle marched forward toward 2026.</div>
+          </div>
+
+          <!-- 9. THE HEART'S SECRET -->
+          <div class="secret-card tilt-3d-card" data-tilt="true" data-egg="9">
+            <div class="egg-num">09</div>
+            <div class="egg-label">THE HEART'S SECRET</div>
+            <div class="egg-detail">Turn the glass heart around: 11:47:03 / I REMEMBER.</div>
+          </div>
+
+          <!-- 10. THE MISSING PIECE -->
+          <div class="secret-card tilt-3d-card" data-tilt="true" data-egg="10">
+            <div class="egg-num">10</div>
+            <div class="egg-label">THE MISSING PIECE</div>
+            <div class="egg-detail">The tiny gap in the heart is filled by the emerald particle, locking into &infin;.</div>
+          </div>
+
+          <!-- 11. THE FINAL CLOCK REMEMBERS -->
+          <div class="secret-card tilt-3d-card" data-tilt="true" data-egg="11">
+            <div class="egg-num">11</div>
+            <div class="egg-label">THE FINAL CLOCK REMEMBERS</div>
+            <div class="egg-detail">&ldquo;YOU STOPPED TIME ONCE. THIS TIME... LET IT RUN.&rdquo;</div>
+          </div>
+
+          <!-- 12. 365 -->
+          <div class="secret-card tilt-3d-card" data-tilt="true" data-egg="12">
+            <div class="egg-num">12</div>
+            <div class="egg-label">365</div>
+            <div class="egg-detail">DAY 365 &bull; 365 DAYS &bull; AND COUNTING.</div>
+          </div>
+
+          <!-- 13. THE DO NOTHING SECRET -->
+          <div class="secret-card tilt-3d-card" data-tilt="true" data-egg="13">
+            <div class="egg-num">13</div>
+            <div class="egg-label">THE DO NOTHING SECRET</div>
+            <div class="egg-detail">Staying quiet in this space lets the memory breathe: &ldquo;You didn't have to click. You just had to remember.&rdquo;</div>
+          </div>
+
+          <!-- 14. THE HIDDEN DATE -->
+          <div class="secret-card tilt-3d-card" data-tilt="true" data-egg="14">
+            <div class="egg-num">14</div>
+            <div class="egg-label">THE HIDDEN DATE</div>
+            <div class="egg-detail">21 / 09 / 2025 rearranges seamlessly into 21.09.2025.</div>
+          </div>
+
+          <!-- 15. THE SECRET NOBODY WAS SUPPOSED TO KNOW -->
+          <div class="secret-card tilt-3d-card" data-tilt="true" data-egg="15">
+            <div class="egg-num">15</div>
+            <div class="egg-label">THE SECRET NOBODY WAS SUPPOSED TO KNOW</div>
+            <div class="egg-detail">&ldquo;And then there's one I didn't tell you about... You actually found it. I knew you'd look everywhere.&rdquo;</div>
+          </div>
+        </div>
+
+        <div class="easter-footer">
+          <p class="secrets-concluded">&ldquo;Okay. Now you know all my secrets.&rdquo;</p>
+          <button id="screen10NextBtn" class="capsule-btn primary-btn">
+            LET'S FINISH THIS
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SCREEN 11 — ONE YEAR LATER (With Live Countdown Clock)
+         ======================================================== -->
+    <section id="screen11" class="capsule-screen">
+      <div class="screen-inner year-later-screen">
+        <div class="year-later-banner">
+          <div class="target-date-display"><span class="flower-symbol">&#10048;</span> 21 SEPTEMBER 2026 <span class="flower-symbol">&#10048;</span></div>
+          <h3 class="year-later-title">One year later.</h3>
+          <p class="year-later-sub">You made it here.</p>
+        </div>
+
+        <!-- Real-Time Live Clock Tracker to 21 September 2026 -->
+        <div class="countdown-deck" id="anniversaryCountdown">
+          <div class="countdown-header"><span class="flower-symbol">&#10047;</span> TIME REMAINING TO THE 365th DAY <span class="flower-symbol">&#10047;</span></div>
+          <div class="countdown-grid">
+            <div class="countdown-box"><span class="countdown-val" id="cntDays">000</span><span class="countdown-lbl">Days</span></div>
+            <div class="countdown-box"><span class="countdown-val" id="cntHours">00</span><span class="countdown-lbl">Hours</span></div>
+            <div class="countdown-box"><span class="countdown-val" id="cntMins">00</span><span class="countdown-lbl">Mins</span></div>
+            <div class="countdown-box"><span class="countdown-val" id="cntSecs">00</span><span class="countdown-lbl">Secs</span></div>
+          </div>
+        </div>
+
+        <div class="year-reflections-block tilt-3d-card" data-tilt="true">
+          <p class="ref-line">&ldquo;I don't know what happened between these two dates.&rdquo;</p>
+          <p class="ref-line">&ldquo;I don't know how many memories we made.&rdquo;</p>
+          <p class="ref-line">&ldquo;I don't know how many fights we survived.&rdquo;</p>
+          <p class="ref-line">&ldquo;I don't know what version of us exists today.&rdquo;</p>
+          <div class="ref-emphasis">
+            <h2>BUT I HOPE WE’RE STILL HERE.</h2>
+          </div>
+        </div>
+
+        <!-- Feature 2: Release a Sky Lantern Button -->
+        <div class="lantern-release-stage">
+          <button id="releaseLanternBtn" class="capsule-btn romance-btn lantern-btn" title="Make a wish and release a sky lantern">
+            <span>🏮 MAKE A WISH FOR US</span>
+          </button>
+        </div>
+
+        <!-- Feature 5: Build a Tulip Bouquet for Devi Ji -->
+        <div class="tulip-bouquet-stage tilt-3d-card" data-tilt="true" id="tulipBouquetStage">
+          <div class="bouquet-header">
+            <span class="bouquet-tag">&#10047; FOR LAKSHITA &bull; A GARDEN OF LOVE &#10047;</span>
+            <h4 class="bouquet-title">Pick a Tulip for Devi Ji</h4>
+            <p class="bouquet-sub">Because you love tulips... tap the button to gather flowers for your anniversary bouquet.</p>
+          </div>
+          
+          <div class="bouquet-vase-display" id="bouquetVase">
+            <div class="tulips-collected-row" id="tulipsCollectedRow">
+              <!-- Dynamically filled with picked blooming tulips -->
+            </div>
+            <div class="bouquet-vase-base">
+              <span class="vase-monogram">M &amp; L</span>
+            </div>
+          </div>
+
+          <div class="bouquet-actions">
+            <button id="pickTulipBtn" class="capsule-btn romance-btn" title="Pick another tulip">
+              <span>🌷 PICK A TULIP FOR HER</span>
+            </button>
+            <span class="bouquet-count-status" id="bouquetCountStatus">0 / 5 Tulips Picked</span>
+          </div>
+
+          <div class="bouquet-completed-card hidden" id="bouquetCompletedCard">
+            <div class="ribbon-bow">&#127872;</div>
+            <h5>A Forever Bouquet for Devi Ji</h5>
+            <p>&ldquo;Fresh flowers wither, but this bouquet was grown out of every memory we shared this year. Every petal is a promise that I will always choose you.&rdquo;</p>
+            <span class="bouquet-sign">&mdash; Manish &hearts;</span>
+          </div>
+        </div>
+
+        <!-- Feature 2: "Constellation of Us" / Connect the Stars of Udaipur -->
+        <div class="constellation-stage tilt-3d-card" data-tilt="true" id="constellationStage">
+          <div class="constellation-header">
+            <span class="constellation-tag">&#10022; STAR MAP &bull; UDAIPUR SKY &#10022;</span>
+            <h4 class="constellation-title">The Constellation of Us</h4>
+            <p class="constellation-sub">Tap each star to trace our journey through the night sky...</p>
+          </div>
+          
+          <div class="constellation-sky-box" id="constellationSkyBox">
+            <svg class="constellation-svg" id="constellationSvg" viewBox="0 0 360 200">
+              <!-- Connecting lines -->
+              <line id="constLine1" x1="50" y1="130" x2="130" y2="60" class="const-line hidden" />
+              <line id="constLine2" x1="130" y1="60" x2="230" y2="70" class="const-line hidden" />
+              <line id="constLine3" x1="230" y1="70" x2="310" y2="140" class="const-line hidden" />
+              <path id="constHeartLine" d="M 130 60 Q 180 20 230 70 Q 180 160 130 60" class="const-heart-arc hidden" />
+
+              <!-- Interactive Stars -->
+              <g class="star-point" data-star="1" transform="translate(50, 130)">
+                <circle cx="0" cy="0" r="14" class="star-glow" />
+                <circle cx="0" cy="0" r="6" class="star-core" />
+                <text x="0" y="24" text-anchor="middle" class="star-label">Sojat Road</text>
+              </g>
+              <g class="star-point" data-star="2" transform="translate(130, 60)">
+                <circle cx="0" cy="0" r="14" class="star-glow" />
+                <circle cx="0" cy="0" r="6" class="star-core" />
+                <text x="0" y="-12" text-anchor="middle" class="star-label">Lake City Mall</text>
+              </g>
+              <g class="star-point" data-star="3" transform="translate(230, 70)">
+                <circle cx="0" cy="0" r="14" class="star-glow" />
+                <circle cx="0" cy="0" r="6" class="star-core" />
+                <text x="0" y="-12" text-anchor="middle" class="star-label">Baaghi 4</text>
+              </g>
+              <g class="star-point" data-star="4" transform="translate(310, 140)">
+                <circle cx="0" cy="0" r="14" class="star-glow" />
+                <circle cx="0" cy="0" r="6" class="star-core" />
+                <text x="0" y="24" text-anchor="middle" class="star-label">21.09.2026</text>
+              </g>
+            </svg>
+          </div>
+
+          <div class="constellation-star-story" id="constellationStory">
+            &ldquo;Tap the stars above to connect our path from the morning ride to forever.&rdquo;
+          </div>
+        </div>
+
+        <div class="year-later-actions">
+          <button id="letTimeRunBtn" class="capsule-btn romance-btn">
+            LET TIME RUN
+          </button>
+          <div id="timeRunningConfirmation" class="time-running-msg hidden">
+            <p>&ldquo;Then let’s make more memories while it does.&rdquo;</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SCREEN 12 — THE HEART (The Grand Finale + Keepsake)
+         ======================================================== -->
+    <section id="screen12" class="capsule-screen">
+      <div class="screen-inner finale-screen">
+        <div class="final-heart-stage">
+          
+          <!-- 3D Interactive Rotating Heart Viewport -->
+          <div id="finale3DContainer" class="finale-3d-crystal-stage" title="Interactive 3D Glass Heart — Drag to rotate in 3D"></div>
+
+          <!-- 2D & 3D Glass Heart Card with Flip Interaction -->
+          <div class="heart-flip-card tilt-3d-card" data-tilt="true" id="finalHeartCard">
+            <div class="heart-card-inner">
+              
+              <!-- Front of Heart: The Infinity Symbol & Visual Fragments -->
+              <div class="heart-face heart-front">
+                <svg viewBox="0 0 240 220" class="heart-canvas-svg">
+                  <defs>
+                    <linearGradient id="finaleGlassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="rgba(255, 255, 255, 0.7)" />
+                      <stop offset="50%" stop-color="rgba(255, 200, 221, 0.45)" />
+                      <stop offset="100%" stop-color="rgba(255, 77, 109, 0.28)" />
+                    </linearGradient>
+                    <filter id="softGlow">
+                      <feGaussianBlur stdDeviation="3" result="glow"/>
+                      <feComposite in="SourceGraphic" in2="glow" operator="over"/>
+                    </filter>
+                  </defs>
+                  
+                  <path d="M120 195 C 20 130, 10 50, 70 20 C 100 5, 115 25, 120 45 C 125 25, 140 5, 170 20 C 230 50, 220 130, 120 195 Z" 
+                        fill="url(#finaleGlassGrad)" stroke="#CBB279" stroke-width="2" filter="url(#softGlow)" />
+                  
+                  <!-- Micro-Fragments Embedded Inside -->
+                  <path d="M60 110 Q90 130 110 120" stroke="rgba(203, 178, 121, 0.5)" stroke-width="2" fill="none" />
+                  <circle cx="150" cy="115" r="4" fill="#2E7D63" opacity="0.85" />
+                  <circle cx="120" cy="70" r="3" fill="#1A1516" />
+                  <path d="M80 80 L100 95 L95 105 Z" fill="rgba(255, 234, 167, 0.4)" />
+                  <circle cx="160" cy="80" r="8" stroke="rgba(203, 178, 121, 0.35)" stroke-width="1" fill="none" />
+                  
+                  <text x="120" y="145" text-anchor="middle" class="infinity-text">&infin;</text>
+                </svg>
+                <span class="flip-prompt">tap to turn around</span>
+              </div>
+
+              <!-- Back of Heart: 11:47:03 / I REMEMBER -->
+              <div class="heart-face heart-back">
+                <svg viewBox="0 0 240 220" class="heart-canvas-svg">
+                  <path d="M120 195 C 20 130, 10 50, 70 20 C 100 5, 115 25, 120 45 C 125 25, 140 5, 170 20 C 230 50, 220 130, 120 195 Z" 
+                        fill="rgba(62, 31, 36, 0.9)" stroke="#D8B26E" stroke-width="2" />
+                  <text x="120" y="95" text-anchor="middle" class="back-time">11:47:03</text>
+                  <text x="120" y="130" text-anchor="middle" class="back-remember">I REMEMBER.</text>
+                </svg>
+                <span class="flip-prompt">tap to see front</span>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Feature 5: "A Promise to Devi Ji" Digital Ribbon & 3 Sacred Vows -->
+          <div class="promise-ribbon-stage tilt-3d-card" data-tilt="true" id="promiseRibbonStage">
+            <div class="ribbon-wrap" id="ribbonWrap">
+              <div class="ribbon-band left-band"></div>
+              <div class="ribbon-knot" id="ribbonKnot" title="Tap to unbind the ribbon">
+                <span class="ribbon-bow-icon">&#127872;</span>
+                <span class="ribbon-touch-hint">Tap to unbind our ribbon</span>
+              </div>
+              <div class="ribbon-band right-band"></div>
+            </div>
+
+            <!-- Vows Container Revealed on Ribbon Unbind -->
+            <div class="vows-card hidden" id="vowsCard">
+              <span class="flower-symbol">&#10047;</span>
+              <h4 class="vows-title">A Promise to My Devi Ji</h4>
+              <div class="vows-list">
+                <div class="vow-item">
+                  <span class="vow-num">01.</span>
+                  <p class="vow-text">&ldquo;I promise to listen with all my heart, even in the quiet moments when words are hard to find.&rdquo;</p>
+                </div>
+                <div class="vow-item">
+                  <span class="vow-num">02.</span>
+                  <p class="vow-text">&ldquo;I promise to never take that 11:47:03 memory for granted, and to keep looking at you with the exact same awe as that morning.&rdquo;</p>
+                </div>
+                <div class="vow-item">
+                  <span class="vow-num">03.</span>
+                  <p class="vow-text">&ldquo;I promise that whatever life brings, we will face it with patience, forgiveness, and survive every stupid little fight.&rdquo;</p>
+                </div>
+              </div>
+              <span class="vow-signature">&hearts; Manish</span>
+            </div>
+          </div>
+
+          <!-- Final Dedication Text -->
+          <div class="finale-dedication">
+            <p class="fin-line">&ldquo;I came to Udaipur to meet you.&rdquo;</p>
+            <p class="fin-line">&ldquo;I thought I was going to watch a movie.&rdquo;</p>
+            <p class="fin-line">&ldquo;I came back with a memory.&rdquo;</p>
+            <h3 class="fin-highlight">&ldquo;Thank you for being the person I couldn't stop looking at.&rdquo;</h3>
+            <div class="fin-date-mark">21.09.2025 &rarr; &infin;</div>
+          </div>
+        </div>
+
+        <div class="finale-actions">
+          <button id="saveKeepsakeBtn" class="capsule-btn romance-btn" title="Save / Print Beautiful Keepsake Letter">
+            <svg class="icon-save" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+              <polyline points="17 21 17 13 7 13 7 21"></polyline>
+              <polyline points="7 3 7 8 15 8"></polyline>
+            </svg>
+            SAVE AS KEEPSAKE
+          </button>
+          <button id="walkAgainBtn" class="capsule-btn primary-btn">
+            WALK THROUGH IT AGAIN
+          </button>
+          <button id="closeMemoryBtn" class="capsule-btn subtle-btn">
+            CLOSE THE MEMORY
+          </button>
+        </div>
+
+        <!-- Closing Screen State -->
+        <div id="closedCurtainScreen" class="closed-memory-curtain hidden">
+          <div class="curtain-content">
+            <div class="closing-emerald-sparkle"></div>
+            <div class="closing-heart-burst">&hearts;</div>
+            <h2 class="closing-farewell">&ldquo;Until the next time you remember.&rdquo;</h2>
+            <button id="reopenCapsuleBtn" class="capsule-btn subtle-btn">Reopen Capsule</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Feature 5: Why Devi Ji Modal Note -->
+  <div id="whyDeviJiModal" class="why-devi-modal hidden">
+    <div class="why-devi-card tilt-3d-card" data-tilt="true">
+      <button id="closeWhyDeviModal" class="vault-close-btn">&times;</button>
+      <div class="postit-pin">&#128204;</div>
+      <span class="postit-tag">A Note From Manish</span>
+      <h4 class="postit-title">Why &ldquo;Devi Ji&rdquo;?</h4>
+      <p class="postit-text">&ldquo;Because from the very first moment, you carried a grace that felt sacred to me. In a crowded mall of thousands, the entire noise disappeared the second you stood by that railing. Special, respected, irreplaceable... and forever my Devi Ji.&rdquo;</p>
+      
+      <!-- Feature 3: Interactive Blooming Pink Tulip of Devi Ji -->
+      <div class="tulip-bloom-stage" id="tulipBloomStage">
+        <div class="tulip-header-note">
+          <span class="tulip-symbol">🌷</span> A Tulip for Devi Ji &bull; Tap each petal to unfurl why you are my Devi Ji <span class="tulip-symbol">🌷</span>
+        </div>
+        <div class="tulip-petals-cluster" id="tulipPetalsCluster">
+          <button class="tulip-petal petal-1" data-petal="1" title="Tap tulip petal 1"><span>01</span></button>
+          <button class="tulip-petal petal-2" data-petal="2" title="Tap tulip petal 2"><span>02</span></button>
+          <button class="tulip-petal petal-3" data-petal="3" title="Tap tulip petal 3"><span>03</span></button>
+          <button class="tulip-petal petal-4" data-petal="4" title="Tap tulip petal 4"><span>04</span></button>
+          <button class="tulip-petal petal-5" data-petal="5" title="Tap tulip petal 5"><span>05</span></button>
+          <button class="tulip-petal petal-6" data-petal="6" title="Tap tulip petal 6"><span>06</span></button>
+          <button class="tulip-petal petal-7" data-petal="7" title="Tap tulip petal 7"><span>07</span></button>
+          <div class="tulip-center-core">&hearts;</div>
+        </div>
+        <div class="petal-revealed-message" id="petalRevealedMessage">
+          &ldquo;Tap any tulip petal above to reveal what my heart holds for you.&rdquo;
+        </div>
+      </div>
+
+      <span class="postit-sign">&hearts; Manish</span>
+    </div>
+  </div>
+
+  <!-- Secret Passcode Vault Modal (Unlocked with 114703) -->
+  <div id="secretPasscodeModal" class="secret-vault-modal hidden">
+    <div class="vault-card tilt-3d-card" data-tilt="true">
+      <button id="closePasscodeModal" class="vault-close-btn">&times;</button>
+      <div class="vault-icon">&#128274;</div>
+      <h3 class="vault-title">The Secret Passcode</h3>
+      <p class="vault-sub">Enter the 6-digit remembered moment (HHMMSS):</p>
+      <div class="passcode-input-row">
+        <input type="text" id="passcodeInput" maxlength="6" placeholder="114703" autocomplete="off">
+        <button id="submitPasscodeBtn" class="capsule-btn primary-btn">UNLOCK</button>
+      </div>
+      <div id="vaultSecretContent" class="vault-content hidden">
+        <div class="vault-heart">&hearts;</div>
+        <h4>You Remembered 11:47:03</h4>
+        <p>&ldquo;Some memories don't fade with time. They just become the compass for where you always want to be. Thank you for being my Devi Ji.&rdquo;</p>
+        <span class="vault-sign">— Manish</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modals for "Open When..." Letters (Separate Viewport Modals to prevent text collision) -->
+  <div id="miniModalMissMe" class="mini-env-modal hidden" role="dialog" aria-modal="true" aria-labelledby="miniTitle01">
+    <div class="mini-modal-backdrop" data-close="miniModalMissMe"></div>
+    <div class="mini-letter-dialog">
+      <button class="mini-letter-close" data-close="miniModalMissMe" aria-label="Close">&times;</button>
+      <div class="mini-letter-dialog-header">
+        <div class="mini-wax-seal">&hearts;</div>
+        <span class="mini-env-tag">Envelope 01</span>
+        <h4 id="miniTitle01" class="mini-dialog-title">When You Miss Me <span class="pink-heart-dot">&hearts;</span></h4>
+      </div>
+      <div class="mini-letter-dialog-body">
+        <p>&ldquo;Close your eyes for five seconds. Remember 11:47:03 at Lake City Mall. In that moment, I was looking only at you. That hasn't changed. Distance is just geography; my heart is right where you left it.&rdquo;</p>
+      </div>
+      <span class="mini-letter-sign">&mdash; Always Manish</span>
+      <button type="button" class="mini-dialog-done-btn" data-close="miniModalMissMe">Return to Letter &hearts;</button>
+    </div>
+  </div>
+
+  <div id="miniModalFight" class="mini-env-modal hidden" role="dialog" aria-modal="true" aria-labelledby="miniTitle02">
+    <div class="mini-modal-backdrop" data-close="miniModalFight"></div>
+    <div class="mini-letter-dialog">
+      <button class="mini-letter-close" data-close="miniModalFight" aria-label="Close">&times;</button>
+      <div class="mini-letter-dialog-header">
+        <div class="mini-wax-seal">&hearts;</div>
+        <span class="mini-env-tag">Envelope 02</span>
+        <h4 id="miniTitle02" class="mini-dialog-title">When We Have a Silly Fight <span class="pink-heart-dot">&hearts;</span></h4>
+      </div>
+      <div class="mini-letter-dialog-body">
+        <p>&ldquo;Hey... take a deep breath. Whatever stupid thing I said or did, I'm sorry. Remember our kintsugi heart from Screen 07? We promised to survive every silly little fight. Let's fix it with gold. Call me.&rdquo;</p>
+      </div>
+      <span class="mini-letter-sign">&mdash; Manish</span>
+      <button type="button" class="mini-dialog-done-btn" data-close="miniModalFight">Return to Letter &hearts;</button>
+    </div>
+  </div>
+
+  <div id="miniModalReminder" class="mini-env-modal hidden" role="dialog" aria-modal="true" aria-labelledby="miniTitle03">
+    <div class="mini-modal-backdrop" data-close="miniModalReminder"></div>
+    <div class="mini-letter-dialog">
+      <button class="mini-letter-close" data-close="miniModalReminder" aria-label="Close">&times;</button>
+      <div class="mini-letter-dialog-header">
+        <div class="mini-wax-seal">&hearts;</div>
+        <span class="mini-env-tag">Envelope 03</span>
+        <h4 id="miniTitle03" class="mini-dialog-title">How Incredibly Special You Are <span class="pink-heart-dot">&hearts;</span></h4>
+      </div>
+      <div class="mini-letter-dialog-body">
+        <p>&ldquo;In a world full of ordinary people, you are my Devi Ji. The girl in the green kurta who turned a routine movie trip into the most precious day of my life. Never forget how loved and cherished you are.&rdquo;</p>
+      </div>
+      <span class="mini-letter-sign">&mdash; Forever Yours, Manish</span>
+      <button type="button" class="mini-dialog-done-btn" data-close="miniModalReminder">Return to Letter &hearts;</button>
+    </div>
+  </div>
+
+  <!-- Dynamic Flying Sky Lantern Container -->
+  <div id="skyLanternLayer" class="sky-lantern-layer"></div>
+
+  <script src="audio.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
