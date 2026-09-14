@@ -4023,3 +4023,62 @@ body.theme-emerald-tulip .theme-switch-btn {
   color: #1DB954;
   text-decoration: underline;
 }
+
+/* Tabs & Video Embed Styles for Befikar Song */
+.song-player-tabs {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.player-tab-btn {
+  background: #F4ECE1;
+  border: 1px solid rgba(203, 178, 121, 0.5);
+  border-radius: 16px;
+  padding: 6px 14px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--burgundy-deep);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.player-tab-btn:hover {
+  background: #FFF5F7;
+  border-color: var(--heart-pink-bright);
+}
+
+.player-tab-btn.active {
+  background: var(--burgundy-deep);
+  color: #FFFDF9;
+  border-color: var(--burgundy-deep);
+  box-shadow: 0 2px 8px rgba(62, 31, 36, 0.2);
+}
+
+.embed-video-wrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
+  background: #000;
+}
+
+.embed-video-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.player-hint-text {
+  font-size: 0.74rem;
+  color: #156934;
+  margin-top: 10px;
+  font-weight: 500;
+}

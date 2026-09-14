@@ -90,11 +90,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Feature: Spotify "Befikar" Track Modal Logic
+  // Feature: "Befikar" Track Modal & Player Logic
   const spotifyMusicBtn = document.getElementById('spotifyMusicBtn');
   const spotifyPlayerModal = document.getElementById('spotifyPlayerModal');
   const closeSpotifyModalBtn = document.getElementById('closeSpotifyModalBtn');
   const closeSpotifyModalBackdrop = document.getElementById('closeSpotifyModalBackdrop');
+  const tabYoutubeBtn = document.getElementById('tabYoutubeBtn');
+  const tabSpotifyBtn = document.getElementById('tabSpotifyBtn');
+  const playerViewYoutube = document.getElementById('playerViewYoutube');
+  const playerViewSpotify = document.getElementById('playerViewSpotify');
+  const youtubeSongIframe = document.getElementById('youtubeSongIframe');
 
   function openSpotifyModal() {
     if (spotifyPlayerModal) {
@@ -109,7 +114,37 @@ document.addEventListener('DOMContentLoaded', () => {
   function closeSpotifyModal() {
     if (spotifyPlayerModal) {
       spotifyPlayerModal.classList.add('hidden');
+      // Pause YouTube iframe audio when closing modal
+      if (youtubeSongIframe) {
+        try {
+          youtubeSongIframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+        } catch (e) {}
+      }
     }
+  }
+
+  if (tabYoutubeBtn && tabSpotifyBtn && playerViewYoutube && playerViewSpotify) {
+    tabYoutubeBtn.addEventListener('click', () => {
+      tabYoutubeBtn.classList.add('active');
+      tabSpotifyBtn.classList.remove('active');
+      playerViewYoutube.classList.remove('hidden');
+      playerViewSpotify.classList.add('hidden');
+      triggerHaptic([30, 50]);
+    });
+
+    tabSpotifyBtn.addEventListener('click', () => {
+      tabSpotifyBtn.classList.add('active');
+      tabYoutubeBtn.classList.remove('active');
+      playerViewSpotify.classList.remove('hidden');
+      playerViewYoutube.classList.add('hidden');
+      triggerHaptic([30, 50]);
+      // Pause YouTube if switching to Spotify
+      if (youtubeSongIframe) {
+        try {
+          youtubeSongIframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+        } catch (e) {}
+      }
+    });
   }
 
   if (spotifyMusicBtn) {

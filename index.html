@@ -1227,7 +1227,7 @@
     </div>
   </div>
 
-  <!-- Spotify Background Track Modal: "Befikar" (Tanzeel Khan) -->
+  <!-- Song Player Modal: "Befikar" (Tanzeel Khan ft. Aashna Hegde) -->
   <div id="spotifyPlayerModal" class="spotify-track-modal hidden" role="dialog" aria-modal="true" aria-labelledby="spotifyModalTitle">
     <div class="spotify-modal-backdrop" id="closeSpotifyModalBackdrop"></div>
     <div class="spotify-player-dialog">
@@ -1235,24 +1235,50 @@
       <div class="spotify-dialog-header">
         <span class="spotify-badge-pill">&#9835; Devi Ji &amp; Manish's Song</span>
         <h4 id="spotifyModalTitle" class="spotify-dialog-title">Befikar &mdash; Tanzeel Khan <span class="pink-heart-dot">&hearts;</span></h4>
-        <p class="spotify-dialog-subtitle">Listening together across time and memory</p>
+        <p class="spotify-dialog-subtitle">&ldquo;Listening together across time and memory...&rdquo;</p>
       </div>
-      <div class="spotify-embed-container">
-        <iframe 
-          style="border-radius:12px;" 
-          src="https://open.spotify.com/embed/track/0Qxis7LXvwqhCO2qOKCmLX?utm_source=generator&theme=0" 
-          width="100%" 
-          height="152" 
-          frameBorder="0" 
-          allowfullscreen="" 
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-          loading="lazy">
-        </iframe>
+
+      <!-- Player Source Selector Tabs -->
+      <div class="song-player-tabs">
+        <button type="button" class="player-tab-btn active" id="tabYoutubeBtn">&#9658; Full Song (Instant Play)</button>
+        <button type="button" class="player-tab-btn" id="tabSpotifyBtn">&#9835; Spotify</button>
       </div>
-      <div class="spotify-dialog-footer">
-        <a href="https://open.spotify.com/track/0Qxis7LXvwqhCO2qOKCmLX" target="_blank" rel="noopener noreferrer" class="spotify-app-link">
-          Open directly in Spotify App &rarr;
-        </a>
+
+      <!-- Full Track Player via YouTube Music Stream -->
+      <div class="player-view" id="playerViewYoutube">
+        <div class="embed-video-wrapper">
+          <iframe 
+            id="youtubeSongIframe"
+            src="https://www.youtube-nocookie.com/embed/DI15USCy_gw?enablejsapi=1&autoplay=1&playsinline=1&rel=0" 
+            title="Befikar - Tanzeel Khan ft. Aashna Hegde" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowfullscreen>
+          </iframe>
+        </div>
+        <p class="player-hint-text">&#10024; Plays the full song smoothly without requiring any login &hearts;</p>
+      </div>
+
+      <!-- Spotify Embed View -->
+      <div class="player-view hidden" id="playerViewSpotify">
+        <div class="spotify-embed-container">
+          <iframe 
+            style="border-radius:12px;" 
+            src="https://open.spotify.com/embed/track/0Qxis7LXvwqhCO2qOKCmLX?utm_source=generator&theme=0" 
+            width="100%" 
+            height="152" 
+            frameBorder="0" 
+            allowfullscreen="" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+            loading="lazy">
+          </iframe>
+        </div>
+        <div class="spotify-dialog-footer">
+          <a href="https://open.spotify.com/track/0Qxis7LXvwqhCO2qOKCmLX" target="_blank" rel="noopener noreferrer" class="spotify-app-link">
+            Open directly in Spotify App &rarr;
+          </a>
+        </div>
       </div>
     </div>
   </div>
