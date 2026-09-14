@@ -90,6 +90,38 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Feature: Spotify "Befikar" Track Modal Logic
+  const spotifyMusicBtn = document.getElementById('spotifyMusicBtn');
+  const spotifyPlayerModal = document.getElementById('spotifyPlayerModal');
+  const closeSpotifyModalBtn = document.getElementById('closeSpotifyModalBtn');
+  const closeSpotifyModalBackdrop = document.getElementById('closeSpotifyModalBackdrop');
+
+  function openSpotifyModal() {
+    if (spotifyPlayerModal) {
+      spotifyPlayerModal.classList.remove('hidden');
+      triggerHaptic([50, 70]);
+      if (window.capsuleAudio) {
+        window.capsuleAudio.playFreezeTone();
+      }
+    }
+  }
+
+  function closeSpotifyModal() {
+    if (spotifyPlayerModal) {
+      spotifyPlayerModal.classList.add('hidden');
+    }
+  }
+
+  if (spotifyMusicBtn) {
+    spotifyMusicBtn.addEventListener('click', openSpotifyModal);
+  }
+  if (closeSpotifyModalBtn) {
+    closeSpotifyModalBtn.addEventListener('click', closeSpotifyModal);
+  }
+  if (closeSpotifyModalBackdrop) {
+    closeSpotifyModalBackdrop.addEventListener('click', closeSpotifyModal);
+  }
+
   // Feature 3: Emerald & Tulip Theme Switcher
   const themeToggleBtn = document.getElementById('themeToggleBtn');
   const bodyRootEl = document.getElementById('bodyRoot') || document.body;

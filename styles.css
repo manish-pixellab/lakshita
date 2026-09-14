@@ -366,6 +366,28 @@ body.theme-emerald-tulip .theme-switch-btn {
   box-shadow: 0 4px 12px rgba(45, 106, 79, 0.25);
 }
 
+.spotify-track-btn {
+  border-color: rgba(29, 185, 84, 0.5);
+  background: #F0FFF4;
+  color: #156934;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.spotify-track-btn:hover {
+  border-color: #1DB954;
+  background: #E6F9ED;
+  box-shadow: 0 4px 14px rgba(29, 185, 84, 0.28);
+  transform: translateY(-1px);
+}
+
+.spotify-badge-icon {
+  font-size: 0.95rem;
+  color: #1DB954;
+}
+
 .vault-btn {
   border-color: var(--gold-warm);
   background: #FFFDF9;
@@ -3882,4 +3904,122 @@ body.theme-emerald-tulip .theme-switch-btn {
   .secrets-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* ========================================================
+   FEATURE: SPOTIFY "BEFIKAR" BACKGROUND MUSIC PLAYER MODAL
+   ======================================================== */
+.spotify-track-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.spotify-track-modal.hidden {
+  display: none !important;
+}
+
+.spotify-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(18, 9, 13, 0.76);
+  backdrop-filter: blur(8px);
+}
+
+.spotify-player-dialog {
+  position: relative;
+  z-index: 2;
+  background: #FFFDF9;
+  border: 1.5px solid rgba(29, 185, 84, 0.4);
+  border-radius: 20px;
+  padding: 28px 24px 22px 24px;
+  max-width: 440px;
+  width: 92vw;
+  box-shadow: 0 25px 65px rgba(0, 0, 0, 0.55), 0 0 35px rgba(29, 185, 84, 0.15);
+  text-align: center;
+  animation: fadeInSlow 0.25s ease;
+}
+
+.spotify-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: #E8F8EE;
+  color: #156934;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.spotify-modal-close:hover {
+  background: #D1F3DE;
+  color: #0E4823;
+}
+
+.spotify-dialog-header {
+  margin-bottom: 16px;
+}
+
+.spotify-badge-pill {
+  display: inline-block;
+  font-size: 0.68rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #1DB954;
+  background: rgba(29, 185, 84, 0.1);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.spotify-dialog-title {
+  font-family: var(--font-serif);
+  font-size: 1.32rem;
+  color: var(--burgundy-deep);
+  margin-bottom: 4px;
+}
+
+.spotify-dialog-subtitle {
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--text-muted);
+}
+
+.spotify-embed-container {
+  margin: 12px 0;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.spotify-dialog-footer {
+  margin-top: 12px;
+}
+
+.spotify-app-link {
+  font-size: 0.78rem;
+  color: #156934;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  transition: color 0.2s;
+}
+
+.spotify-app-link:hover {
+  color: #1DB954;
+  text-decoration: underline;
 }
