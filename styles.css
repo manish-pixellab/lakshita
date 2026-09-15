@@ -160,6 +160,70 @@ body.theme-emerald-tulip .theme-switch-btn {
   box-shadow: 0 0 14px rgba(45, 106, 79, 0.4);
 }
 
+/* Lakshita's Favorite: White & Lavender Theme */
+body.theme-white-lavender {
+  --bg-primary: #F8F5FE;
+  --bg-secondary: #FFFFFF;
+  --bg-card: rgba(255, 255, 255, 0.95);
+  --bg-parchment: #F3EEFB;
+  --text-dark: #22152D;
+  --text-muted: #6B5B7E;
+  --burgundy-deep: #31144D;
+  --burgundy-rich: #491E74;
+  --emerald-deep: #43126F;
+  --emerald-vibrant: #7B2CBF;
+  --emerald-glow: rgba(157, 113, 232, 0.45);
+  --rose-muted: #D8BBFF;
+  --blush-soft: #F1E9FE;
+  --heart-pink-light: #E2D4F9;
+  --heart-pink-soft: #C8B6FF;
+  --heart-pink-bright: #9D71E8;
+  --gold-warm: #BDB2FF;
+  --gold-bright: #D0C4DF;
+  background-color: #F8F5FE;
+  color: #22152D;
+}
+
+body.theme-white-lavender .capsule-header {
+  background: rgba(248, 245, 254, 0.94);
+  border-bottom-color: rgba(157, 113, 232, 0.3);
+}
+
+body.theme-white-lavender .brand-monogram {
+  color: #491E74;
+}
+
+body.theme-white-lavender .screen-indicator {
+  color: #7B2CBF;
+}
+
+body.theme-white-lavender .ambient-noise {
+  background-image: radial-gradient(circle at 50% 15%, rgba(200, 182, 255, 0.45) 0%, transparent 60%),
+                    radial-gradient(circle at 85% 80%, rgba(255, 255, 255, 0.8) 0%, transparent 50%),
+                    radial-gradient(circle at 10% 85%, rgba(157, 113, 232, 0.22) 0%, transparent 40%);
+}
+
+body.theme-white-lavender .theme-switch-btn {
+  background: #6A329F;
+  color: #FFFFFF;
+  border-color: #9D71E8;
+  box-shadow: 0 0 14px rgba(157, 113, 232, 0.45);
+}
+
+body.theme-white-lavender .capsule-btn.primary-btn {
+  background: linear-gradient(135deg, #7B2CBF 0%, #9D71E8 100%);
+  color: #FFFFFF;
+  border-color: #BDB2FF;
+  box-shadow: 0 4px 16px rgba(123, 44, 191, 0.3);
+}
+
+body.theme-white-lavender .capsule-btn.romance-btn {
+  background: linear-gradient(135deg, #9D71E8 0%, #C8B6FF 100%);
+  color: #22152D;
+  font-weight: 700;
+  border-color: #FFFFFF;
+}
+
 /* Starry Sky Layer */
 .starry-sky-layer {
   position: fixed;
@@ -364,6 +428,17 @@ body.theme-emerald-tulip .theme-switch-btn {
 .theme-switch-btn:hover {
   border-color: #2D6A4F;
   box-shadow: 0 4px 12px rgba(45, 106, 79, 0.25);
+}
+
+.theme-switch-btn.active-lavender {
+  border-color: #9D71E8;
+  background: #F3EEFA;
+  color: #491E74;
+}
+
+.theme-switch-btn.active-lavender:hover {
+  border-color: #7B2CBF;
+  box-shadow: 0 4px 14px rgba(157, 113, 232, 0.35);
 }
 
 .spotify-track-btn {

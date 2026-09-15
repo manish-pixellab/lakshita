@@ -157,41 +157,61 @@ document.addEventListener('DOMContentLoaded', () => {
     closeSpotifyModalBackdrop.addEventListener('click', closeSpotifyModal);
   }
 
-  // Feature 3: Emerald & Tulip Theme Switcher
+  // Feature 3: Multi-Theme Switcher (Classic Burgundy -> Emerald & Tulip -> White & Lavender)
   const themeToggleBtn = document.getElementById('themeToggleBtn');
   const bodyRootEl = document.getElementById('bodyRoot') || document.body;
 
-  function applyEmeraldTheme(isEmerald) {
-    if (isEmerald) {
+  function applyTheme(themeName) {
+    bodyRootEl.classList.remove('theme-emerald-tulip', 'theme-white-lavender');
+    if (themeToggleBtn) {
+      themeToggleBtn.classList.remove('active-emerald', 'active-lavender');
+    }
+
+    if (themeName === 'emerald-tulip') {
       bodyRootEl.classList.add('theme-emerald-tulip');
       if (themeToggleBtn) {
         themeToggleBtn.classList.add('active-emerald');
+        themeToggleBtn.innerHTML = '<span class="theme-icon">🪻</span><span class="theme-label">White &amp; Lavender</span>';
+        themeToggleBtn.title = 'Current: Emerald & Tulip. Tap for White & Lavender (Her Favorite)';
+      }
+    } else if (themeName === 'white-lavender') {
+      bodyRootEl.classList.add('theme-white-lavender');
+      if (themeToggleBtn) {
+        themeToggleBtn.classList.add('active-lavender');
         themeToggleBtn.innerHTML = '<span class="theme-icon">✨</span><span class="theme-label">Classic Burgundy</span>';
+        themeToggleBtn.title = 'Current: White & Lavender. Tap for Classic Burgundy';
       }
     } else {
-      bodyRootEl.classList.remove('theme-emerald-tulip');
+      // Classic
       if (themeToggleBtn) {
-        themeToggleBtn.classList.remove('active-emerald');
         themeToggleBtn.innerHTML = '<span class="theme-icon">🌷</span><span class="theme-label">Emerald &amp; Tulip</span>';
+        themeToggleBtn.title = 'Current: Classic Burgundy. Tap for Emerald & Tulip';
       }
     }
   }
 
   // Check saved theme preference
   try {
-    const savedTheme = localStorage.getItem('capsuleTheme');
-    if (savedTheme === 'emerald-tulip') {
-      applyEmeraldTheme(true);
-    }
-  } catch (e) {}
+    const savedTheme = localStorage.getItem('capsuleTheme') || 'white-lavender';
+    applyTheme(savedTheme);
+  } catch (e) {
+    applyTheme('white-lavender');
+  }
 
   if (themeToggleBtn) {
     themeToggleBtn.addEventListener('click', () => {
-      const isCurrentlyEmerald = bodyRootEl.classList.contains('theme-emerald-tulip');
-      const willBeEmerald = !isCurrentlyEmerald;
-      applyEmeraldTheme(willBeEmerald);
+      let nextTheme = 'classic';
+      if (bodyRootEl.classList.contains('theme-white-lavender')) {
+        nextTheme = 'classic';
+      } else if (bodyRootEl.classList.contains('theme-emerald-tulip')) {
+        nextTheme = 'white-lavender';
+      } else {
+        nextTheme = 'emerald-tulip';
+      }
+
+      applyTheme(nextTheme);
       try {
-        localStorage.setItem('capsuleTheme', willBeEmerald ? 'emerald-tulip' : 'classic');
+        localStorage.setItem('capsuleTheme', nextTheme);
       } catch (e) {}
 
       triggerHaptic([40, 60]);
@@ -223,7 +243,11 @@ document.addEventListener('DOMContentLoaded', () => {
     'rgba(255, 77, 109, ',  // vibrant pinkish-red
     'rgba(230, 57, 70, ',   // warm romantic red
     'rgba(201, 24, 74, ',   // deep red rose
-    'rgba(203, 178, 121, '  // champagne gold
+    'rgba(203, 178, 121, ', // champagne gold
+    'rgba(255, 255, 255, ', // pure white (Lakshita's favorite)
+    'rgba(232, 224, 255, ', // soft lavender white
+    'rgba(189, 178, 255, ', // dreamy lavender
+    'rgba(157, 113, 232, '  // vibrant lilac purple
   ];
 
   class RomanticPetal {
@@ -1071,11 +1095,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const bouquetCompletedCard = document.getElementById('bouquetCompletedCard');
 
   const tulipCollection = [
-    { emoji: '🌷', desc: 'Blush Pink Tulip — Soft like your voice' },
-    { emoji: '🌷', desc: 'Sunset Coral Tulip — Warm like your smile at 11:47' },
-    { emoji: '🌷', desc: 'Cream White Tulip — Pure grace like my Devi Ji' },
+    { emoji: '🌷', desc: 'Blush Pink Tulip — Soft like your gentle voice' },
+    { emoji: '🪻', desc: 'Serene Lavender Bloom — Her absolute favorite shade of peace' },
+    { emoji: '🤍', desc: 'Pure White Tulip — Innocent and radiant like my Devi Ji' },
+    { emoji: '🌷', desc: 'Sunset Coral Tulip — Warm like your smile at 11:47:03' },
+    { emoji: '🪻', desc: 'Wild Lilac Lavender — Sweet and calming in every moment' },
     { emoji: '🌷', desc: 'Ruby Red Tulip — For surviving every silly fight with gold' },
-    { emoji: '🌷', desc: 'Golden Velvet Tulip — For our Year Two and forever' }
+    { emoji: '🤍', desc: 'White & Lavender Crown — For our Year Two and forever' }
   ];
   let tulipsPickedCount = 0;
 
@@ -1098,7 +1124,7 @@ document.addEventListener('DOMContentLoaded', () => {
       tulipsCollectedRow.appendChild(item);
 
       if (bouquetCountStatus) {
-        bouquetCountStatus.textContent = `${tulipsPickedCount} / 5: ${tulipData.desc}`;
+        bouquetCountStatus.textContent = `${tulipsPickedCount} / ${tulipCollection.length}: ${tulipData.desc}`;
       }
 
       triggerHaptic([50, 70]);
