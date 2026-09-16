@@ -18,8 +18,13 @@
 <body class="theme-morning" id="bodyRoot">
   <!-- Dynamic Atmosphere Layer (Morning -> Afternoon -> Cinema -> Twilight -> Starry Midnight) -->
   <div class="ambient-noise" id="ambientNoise"></div>
+  <div class="aurora-ambient-glow" id="auroraAmbientGlow"></div>
+  <div class="shooting-stars-layer" id="shootingStarsLayer"></div>
   <div class="starry-sky-layer hidden" id="starrySkyLayer"></div>
   
+  <!-- Interactive Cursor Halo / Spotlight Follower -->
+  <div class="cursor-halo" id="cursorHalo"></div>
+
   <!-- 2D & 3D Interactive Canvas Layers -->
   <canvas id="threeCanvas" class="three-background-canvas"></canvas>
   <canvas id="petalCanvas" class="petal-flower-canvas"></canvas>
@@ -43,6 +48,12 @@
         <span>🌸 Why Devi Ji?</span>
       </button>
 
+      <!-- Feature: Camera Polaroid Booth ("Say Smile... Devi Ji") -->
+      <button id="openCameraBtn" class="control-btn camera-booth-btn" title="Open Camera &amp; Capture Her Smile" aria-label="Open Camera Booth">
+        <span class="camera-icon">📸</span>
+        <span class="camera-btn-label">Say Smile...</span>
+      </button>
+
       <button id="openSecretVaultBtn" class="control-btn vault-btn" title="Secret Passcode Vault" aria-label="Unlock Secret">
         <span class="vault-lock-icon">&#128274;</span>
         <span class="sound-label">11:47:03</span>
@@ -55,12 +66,24 @@
           <circle cx="18" cy="16" r="3"></circle>
         </svg>
         <span class="sound-label">Atmosphere</span>
+        <div class="sound-wave-bars" id="atmosphereWaveBars">
+          <span class="wave-bar w1"></span>
+          <span class="wave-bar w2"></span>
+          <span class="wave-bar w3"></span>
+          <span class="wave-bar w4"></span>
+        </div>
       </button>
 
       <!-- Feature: Spotify "Befikar" Background Track Player -->
       <button id="spotifyMusicBtn" class="control-btn spotify-track-btn" title="Play Our Song: Befikar (Tanzeel Khan)" aria-label="Play Befikar on Spotify">
         <span class="spotify-badge-icon">&#9835;</span>
         <span class="spotify-btn-label">Befikar</span>
+        <div class="sound-wave-bars" id="spotifyWaveBars">
+          <span class="wave-bar w1"></span>
+          <span class="wave-bar w2"></span>
+          <span class="wave-bar w3"></span>
+          <span class="wave-bar w4"></span>
+        </div>
       </button>
       <div id="activeScreenIndicator" class="screen-indicator">Screen 01 / 12</div>
     </div>
@@ -289,7 +312,10 @@
         </div>
 
         <div class="mall-action-row">
-          <button id="screen03NextBtn" class="capsule-btn romance-btn hidden">
+          <button id="screen03CameraBtn" class="capsule-btn romance-btn mall-camera-btn hidden">
+            <span>📸 SAY SMILE, DEVI JI... (TAKE OUR POLAROID)</span>
+          </button>
+          <button id="screen03NextBtn" class="capsule-btn primary-btn hidden">
             CONTINUE
           </button>
         </div>
@@ -473,6 +499,7 @@
       <div class="screen-inner fight-screen">
         <div class="kintsugi-vessel-stage">
           <div class="glass-heart-container tilt-3d-card" data-tilt="true" id="kintsugiHeartBox">
+            <div class="border-beam"></div>
             <svg viewBox="0 0 200 180" class="glass-heart-svg">
               <defs>
                 <linearGradient id="glassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -552,6 +579,7 @@
 
         <!-- Handcrafted Envelope Component (Stationary, No Motion) -->
         <div class="envelope-stage" id="envelopeWrapper">
+          <div class="border-beam"></div>
           <div class="envelope-body" id="envelopeBody">
             <div class="envelope-back-flap" id="envelopeFlap"></div>
             <div class="envelope-pocket"></div>
@@ -590,6 +618,18 @@
                   <div class="pressed-tulip-whisper hidden" id="pressedTulipWhisper">
                     <p>&ldquo;I pressed this tulip into our letter for you. Seasons may change, but this one will never fade &mdash; just like how I feel about you.&rdquo;</p>
                     <span class="whisper-sign">&mdash; Forever, Manish &hearts;</span>
+                  </div>
+                </div>
+
+                <!-- Interactive Pinned Keepsake Polaroid in Letter -->
+                <div class="letter-pinned-polaroid-card hidden" id="letterPinnedPolaroidCard" title="Tap to view Devi Ji's Polaroid Smile">
+                  <div class="letter-polaroid-inner">
+                    <div class="polaroid-pin-tiny">📌</div>
+                    <img id="letterPolaroidImg" class="letter-polaroid-thumb" alt="Devi Ji's Polaroid Smile">
+                    <div class="letter-polaroid-meta">
+                      <span class="letter-polaroid-title">Devi Ji's Smile &bull; Pinned Keepsake &hearts;</span>
+                      <span class="letter-polaroid-sub">tap to view full polaroid &rarr;</span>
+                    </div>
                   </div>
                 </div>
 
@@ -973,6 +1013,7 @@
 
           <!-- 2D & 3D Glass Heart Card with Flip Interaction -->
           <div class="heart-flip-card tilt-3d-card" data-tilt="true" id="finalHeartCard">
+            <div class="border-beam"></div>
             <div class="heart-card-inner">
               
               <!-- Front of Heart: The Infinity Symbol & Visual Fragments -->
@@ -1096,6 +1137,7 @@
   <!-- Feature 5: Why Devi Ji Modal Note -->
   <div id="whyDeviJiModal" class="why-devi-modal hidden">
     <div class="why-devi-card tilt-3d-card" data-tilt="true">
+      <div class="border-beam"></div>
       <button id="closeWhyDeviModal" class="vault-close-btn">&times;</button>
       <div class="postit-pin">&#128204;</div>
       <span class="postit-tag">A Note From Manish</span>
@@ -1282,6 +1324,180 @@
       </div>
     </div>
   </div>
+
+  <!-- ========================================================
+       FEATURE: CAMERA POLAROID BOOTH ("Say Smile... Devi Ji!")
+       ======================================================== -->
+  <div id="cameraBoothModal" class="camera-booth-modal hidden" role="dialog" aria-modal="true" aria-labelledby="cameraModalTitle">
+    <div class="camera-modal-backdrop" id="closeCameraModalBackdrop"></div>
+    <div class="camera-booth-dialog tilt-3d-card" data-tilt="true">
+      <div class="border-beam"></div>
+      <button class="vault-close-btn" id="closeCameraBoothBtn" aria-label="Close Camera">&times;</button>
+      
+      <!-- Instant Camera Flash Effect Layer -->
+      <div class="camera-flash-overlay" id="cameraFlashOverlay"></div>
+
+      <!-- Header -->
+      <div class="camera-dialog-header">
+        <span class="camera-badge-pill">📸 Vintage Polaroid Keepsake &bull; 21.09.2025 &rarr; Forever</span>
+        <h3 id="cameraModalTitle" class="camera-dialog-title">Capture Her Smile <span class="pink-heart-dot">&hearts;</span></h3>
+        <p class="camera-dialog-sub">&ldquo;Look right into the lens... and say smile, Devi Ji.&rdquo;</p>
+      </div>
+
+      <!-- Live Viewfinder Stage -->
+      <div class="camera-viewfinder-stage" id="cameraViewfinderStage">
+        <!-- Live Video Element -->
+        <video id="cameraVideo" class="camera-video-feed" autoplay playsinline muted></video>
+        
+        <!-- Viewfinder HUD Overlays -->
+        <div class="viewfinder-frame">
+          <div class="viewfinder-corner top-left"></div>
+          <div class="viewfinder-corner top-right"></div>
+          <div class="viewfinder-corner bottom-left"></div>
+          <div class="viewfinder-corner bottom-right"></div>
+          <div class="viewfinder-crosshair">
+            <span class="crosshair-heart">&hearts;</span>
+          </div>
+          <div class="viewfinder-lens-tag">MANISH &bull; 11:47:03 LENS</div>
+        </div>
+
+        <!-- Romantic Countdown Overlay ("Say Smile... Devi Ji!") -->
+        <div class="camera-countdown-overlay hidden" id="cameraCountdownOverlay">
+          <span class="countdown-number" id="countdownNumber">3</span>
+          <span class="countdown-whisper" id="countdownWhisper">Look at me...</span>
+        </div>
+
+        <!-- Fallback Prompt if Camera Permission Denied or Unavailable -->
+        <div class="camera-fallback-card hidden" id="cameraFallbackCard">
+          <div class="fallback-icon">📷</div>
+          <h4>Camera Unavailable</h4>
+          <p>Camera access isn't available or was blocked. You can still upload a sweet photo of her smile to create the keepsake Polaroid!</p>
+          <label class="capsule-btn romance-btn upload-photo-btn">
+            <span>CHOOSE HER PHOTO 🌷</span>
+            <input type="file" id="cameraUploadFallbackInput" accept="image/*" class="hidden-file-input">
+          </label>
+        </div>
+      </div>
+
+      <!-- Camera Action Controls Row -->
+      <div class="camera-controls-row" id="cameraControlsRow">
+        <button type="button" id="captureSmileBtn" class="capsule-btn romance-btn snap-btn">
+          <span class="btn-snap-icon">📸</span>
+          <span>READY? SAY SMILE...</span>
+        </button>
+        <button type="button" id="switchCameraBtn" class="capsule-btn subtle-btn switch-cam-btn" title="Flip camera">
+          <span>🔄 FLIP</span>
+        </button>
+        <label class="capsule-btn subtle-btn upload-icon-btn" title="Upload photo from files instead">
+          <span>📁 UPLOAD</span>
+          <input type="file" id="cameraUploadDirectInput" accept="image/*" class="hidden-file-input">
+        </label>
+      </div>
+
+      <!-- Developed Polaroid View (Revealed on Shutter Snap) -->
+      <div class="polaroid-developed-stage hidden" id="polaroidDevelopedStage">
+        <div class="vintage-polaroid-frame" id="polaroidCardFrame">
+          <div class="polaroid-pin-icon">📌</div>
+          <div class="polaroid-tape-strip"></div>
+          
+          <div class="polaroid-photo-canvas-wrap">
+            <canvas id="polaroidCanvas" class="polaroid-canvas" width="640" height="540"></canvas>
+            <div class="polaroid-developing-overlay" id="polaroidDevelopingOverlay">
+              <span class="developing-text">Developing with love... &hearts;</span>
+            </div>
+          </div>
+
+          <div class="polaroid-caption-block">
+            <p class="polaroid-caption-handwritten" id="polaroidCaptionText">My Devi Ji's Smile &bull; 21.09.2025 &rarr; Forever &hearts;</p>
+            <span class="polaroid-signature">&ldquo;The person I couldn't stop looking at.&rdquo; &mdash; Manish</span>
+          </div>
+        </div>
+
+        <!-- Actions on Developed Polaroid -->
+        <div class="polaroid-actions-row">
+          <button type="button" id="downloadPolaroidBtn" class="capsule-btn romance-btn">
+            <span>📥 DOWNLOAD POLAROID</span>
+          </button>
+          <button type="button" id="pinPolaroidKeepsakeBtn" class="capsule-btn primary-btn">
+            <span>📌 PIN TO TIME CAPSULE</span>
+          </button>
+          <button type="button" id="retakePhotoBtn" class="capsule-btn subtle-btn">
+            <span>🔄 TAKE ANOTHER</span>
+          </button>
+        </div>
+        <div id="polaroidPinnedNotice" class="polaroid-pinned-notice hidden">
+          <span>&ldquo;Pinned into your keepsake letter forever!&rdquo; &hearts;</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Aceternity-Inspired Floating Dock Navigation (Quick Screen Jump with Spring Tooltip) -->
+  <nav class="floating-dock-wrapper" id="floatingDockWrapper" aria-label="Timeline Navigation Dock">
+    <div class="floating-dock-container" id="floatingDock">
+      <button class="dock-item active" data-dock-screen="1" aria-label="Screen 1: The Day (21.09.2025)">
+        <span class="dock-tooltip">01. The Date</span>
+        <span class="dock-icon">⏳</span>
+        <span class="dock-dot"></span>
+      </button>
+      <button class="dock-item" data-dock-screen="2" aria-label="Screen 2: The Journey to Her">
+        <span class="dock-tooltip">02. Road to Her</span>
+        <span class="dock-icon">🚗</span>
+        <span class="dock-dot"></span>
+      </button>
+      <button class="dock-item" data-dock-screen="3" aria-label="Screen 3: Lake City Mall">
+        <span class="dock-tooltip">03. Lake City Mall</span>
+        <span class="dock-icon">🛍️</span>
+        <span class="dock-dot"></span>
+      </button>
+      <button class="dock-item" data-dock-screen="4" aria-label="Screen 4: The First Look 11:47:03">
+        <span class="dock-tooltip">04. 11:47:03</span>
+        <span class="dock-icon">👀</span>
+        <span class="dock-dot"></span>
+      </button>
+      <button class="dock-item" data-dock-screen="5" aria-label="Screen 5: Baaghi 4 (Watching You)">
+        <span class="dock-tooltip">05. Baaghi 4</span>
+        <span class="dock-icon">🎬</span>
+        <span class="dock-dot"></span>
+      </button>
+      <button class="dock-item" data-dock-screen="6" aria-label="Screen 6: The Solitary Flame">
+        <span class="dock-tooltip">06. The Flame</span>
+        <span class="dock-icon">🕯️</span>
+        <span class="dock-dot"></span>
+      </button>
+      <button class="dock-item" data-dock-screen="7" aria-label="Screen 7: Kintsugi Heart">
+        <span class="dock-tooltip">07. Kintsugi</span>
+        <span class="dock-icon">💛</span>
+        <span class="dock-dot"></span>
+      </button>
+      <button class="dock-item" data-dock-screen="8" aria-label="Screen 8: The Rewind">
+        <span class="dock-tooltip">08. The Rewind</span>
+        <span class="dock-icon">⏪</span>
+        <span class="dock-dot"></span>
+      </button>
+      <button class="dock-item" data-dock-screen="9" aria-label="Screen 9: The Keepsake Letter">
+        <span class="dock-tooltip">09. The Letter</span>
+        <span class="dock-icon">💌</span>
+        <span class="dock-dot"></span>
+      </button>
+      <button class="dock-item" data-dock-screen="10" aria-label="Screen 10: 15 Hidden Secrets">
+        <span class="dock-tooltip">10. 15 Secrets</span>
+        <span class="dock-icon">✨</span>
+        <span class="dock-dot"></span>
+      </button>
+      <button class="dock-item" data-dock-screen="11" aria-label="Screen 11: One Year Later (Bouquet & Constellation)">
+        <span class="dock-tooltip">11. One Year Later</span>
+        <span class="dock-icon">🌷</span>
+        <span class="dock-dot"></span>
+      </button>
+      <button class="dock-item" data-dock-screen="12" aria-label="Screen 12: Crystal Glass Heart Finale">
+        <span class="dock-tooltip">12. 3D Heart</span>
+        <span class="dock-icon">💎</span>
+        <span class="dock-dot"></span>
+      </button>
+    </div>
+  </nav>
 
   <!-- Dynamic Flying Sky Lantern Container -->
   <div id="skyLanternLayer" class="sky-lantern-layer"></div>

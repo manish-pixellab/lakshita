@@ -172,6 +172,69 @@ class CapsuleAudioEngine {
     setTimeout(() => this.playKintsugiChime(), 150);
   }
 
+  playFlowerPickTone() {
+    if (!this.ctx) this.init();
+    if (this.ctx.state === 'suspended') this.ctx.resume();
+    const now = this.ctx.currentTime;
+    [659.25, 783.99, 987.77, 1318.51].forEach((freq, i) => {
+      this.playVoice(freq, now + i * 0.06, 1.8, 0.07);
+    });
+  }
+
+  playStarConnectTone() {
+    if (!this.ctx) this.init();
+    if (this.ctx.state === 'suspended') this.ctx.resume();
+    const now = this.ctx.currentTime;
+    [523.25, 659.25, 783.99, 1046.50, 1318.51].forEach((freq, i) => {
+      this.playVoice(freq, now + i * 0.07, 2.2, 0.08);
+    });
+  }
+
+  playBurstChime() {
+    if (!this.ctx) this.init();
+    if (this.ctx.state === 'suspended') this.ctx.resume();
+    const now = this.ctx.currentTime;
+    [880, 1046.50, 1318.51].forEach((freq, i) => {
+      this.playVoice(freq, now + i * 0.04, 1.2, 0.05);
+    });
+  }
+
+  playCameraShutterSound() {
+    if (!this.ctx) this.init();
+    if (this.ctx.state === 'suspended') this.ctx.resume();
+    const now = this.ctx.currentTime;
+
+    // Dual-click mechanical camera shutter
+    const osc1 = this.ctx.createOscillator();
+    const gain1 = this.ctx.createGain();
+    osc1.type = 'triangle';
+    osc1.frequency.setValueAtTime(800, now);
+    osc1.frequency.exponentialRampToValueAtTime(120, now + 0.04);
+    gain1.gain.setValueAtTime(0.2, now);
+    gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+    osc1.connect(gain1);
+    gain1.connect(this.masterGain);
+    osc1.start(now);
+    osc1.stop(now + 0.05);
+
+    const snapTime = now + 0.08;
+    const osc2 = this.ctx.createOscillator();
+    const gain2 = this.ctx.createGain();
+    osc2.type = 'sawtooth';
+    osc2.frequency.setValueAtTime(1100, snapTime);
+    osc2.frequency.exponentialRampToValueAtTime(90, snapTime + 0.06);
+    gain2.gain.setValueAtTime(0.25, snapTime);
+    gain2.gain.exponentialRampToValueAtTime(0.001, snapTime + 0.06);
+    osc2.connect(gain2);
+    gain2.connect(this.masterGain);
+    osc2.start(snapTime);
+    osc2.stop(snapTime + 0.07);
+
+    setTimeout(() => {
+      this.playBurstChime();
+    }, 180);
+  }
+
   loadCustomSong(file) {
     if (!file) return;
     const url = URL.createObjectURL(file);

@@ -69,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     currentScreen = target;
     updateIndicator(currentScreen);
     updateAtmosphere(currentScreen);
+    updateFloatingDock(currentScreen);
 
     setTimeout(() => {
       if (screens[currentScreen]) {
@@ -76,6 +77,18 @@ document.addEventListener('DOMContentLoaded', () => {
         initScreenLogic(currentScreen);
       }
     }, 300);
+  }
+
+  function updateFloatingDock(screenNum) {
+    const dockItems = document.querySelectorAll('.dock-item');
+    dockItems.forEach(item => {
+      const s = parseInt(item.getAttribute('data-dock-screen'), 10);
+      if (s === screenNum) {
+        item.classList.add('active');
+      } else {
+        item.classList.remove('active');
+      }
+    });
   }
 
   // Sound toggle button listener
@@ -155,6 +168,417 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   if (closeSpotifyModalBackdrop) {
     closeSpotifyModalBackdrop.addEventListener('click', closeSpotifyModal);
+  }
+
+  // ==========================================================
+  // FEATURE: CAMERA POLAROID BOOTH ("Say Smile... Devi Ji!")
+  // ==========================================================
+  const openCameraBtn = document.getElementById('openCameraBtn');
+  const cameraBoothModal = document.getElementById('cameraBoothModal');
+  const closeCameraBoothBtn = document.getElementById('closeCameraBoothBtn');
+  const closeCameraModalBackdrop = document.getElementById('closeCameraModalBackdrop');
+  const cameraVideo = document.getElementById('cameraVideo');
+  const cameraViewfinderStage = document.getElementById('cameraViewfinderStage');
+  const captureSmileBtn = document.getElementById('captureSmileBtn');
+  const switchCameraBtn = document.getElementById('switchCameraBtn');
+  const cameraUploadDirectInput = document.getElementById('cameraUploadDirectInput');
+  const cameraUploadFallbackInput = document.getElementById('cameraUploadFallbackInput');
+  const cameraFallbackCard = document.getElementById('cameraFallbackCard');
+  const cameraCountdownOverlay = document.getElementById('cameraCountdownOverlay');
+  const countdownNumber = document.getElementById('countdownNumber');
+  const countdownWhisper = document.getElementById('countdownWhisper');
+  const cameraFlashOverlay = document.getElementById('cameraFlashOverlay');
+  const polaroidDevelopedStage = document.getElementById('polaroidDevelopedStage');
+  const polaroidCanvas = document.getElementById('polaroidCanvas');
+  const polaroidDevelopingOverlay = document.getElementById('polaroidDevelopingOverlay');
+  const downloadPolaroidBtn = document.getElementById('downloadPolaroidBtn');
+  const pinPolaroidKeepsakeBtn = document.getElementById('pinPolaroidKeepsakeBtn');
+  const retakePhotoBtn = document.getElementById('retakePhotoBtn');
+  const polaroidPinnedNotice = document.getElementById('polaroidPinnedNotice');
+  const screen03CameraBtn = document.getElementById('screen03CameraBtn');
+  const letterPinnedPolaroidCard = document.getElementById('letterPinnedPolaroidCard');
+  const letterPolaroidImg = document.getElementById('letterPolaroidImg');
+
+  let cameraMediaStream = null;
+  let currentCameraFacing = 'user';
+  let capturedPolaroidDataUrl = null;
+
+  // Restore existing pinned polaroid from localStorage
+  const savedPolaroid = localStorage.getItem('lakshita_polaroid_smile');
+  if (savedPolaroid) {
+    capturedPolaroidDataUrl = savedPolaroid;
+    if (letterPinnedPolaroidCard && letterPolaroidImg) {
+      letterPolaroidImg.src = savedPolaroid;
+      letterPinnedPolaroidCard.classList.remove('hidden');
+    }
+  }
+
+  async function startCamera() {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      showCameraFallback();
+      return;
+    }
+    stopCamera();
+    try {
+      const constraints = {
+        video: {
+          facingMode: currentCameraFacing,
+          width: { ideal: 1280 },
+          height: { ideal: 720 }
+        },
+        audio: false
+      };
+      cameraMediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+      if (cameraVideo) {
+        cameraVideo.srcObject = cameraMediaStream;
+        await cameraVideo.play();
+        if (cameraFallbackCard) cameraFallbackCard.classList.add('hidden');
+      }
+    } catch (err) {
+      console.warn('Camera access error:', err);
+      showCameraFallback();
+    }
+  }
+
+  function stopCamera() {
+    if (cameraMediaStream) {
+      cameraMediaStream.getTracks().forEach(track => track.stop());
+      cameraMediaStream = null;
+    }
+    if (cameraVideo) {
+      cameraVideo.srcObject = null;
+    }
+  }
+
+  function showCameraFallback() {
+    if (cameraFallbackCard) cameraFallbackCard.classList.remove('hidden');
+  }
+
+  function openCameraBooth() {
+    if (cameraBoothModal) {
+      cameraBoothModal.classList.remove('hidden');
+      triggerHaptic([40, 60]);
+      if (window.capsuleAudio) window.capsuleAudio.playBurstChime();
+      
+      resetToViewfinder();
+      startCamera();
+    }
+  }
+
+  function closeCameraBooth() {
+    if (cameraBoothModal) {
+      cameraBoothModal.classList.add('hidden');
+      stopCamera();
+    }
+  }
+
+  function resetToViewfinder() {
+    if (cameraViewfinderStage) cameraViewfinderStage.classList.remove('hidden');
+    const controlsRow = document.getElementById('cameraControlsRow');
+    if (controlsRow) controlsRow.classList.remove('hidden');
+    if (polaroidDevelopedStage) polaroidDevelopedStage.classList.add('hidden');
+    if (cameraCountdownOverlay) cameraCountdownOverlay.classList.add('hidden');
+    if (captureSmileBtn) {
+      captureSmileBtn.disabled = false;
+      captureSmileBtn.style.opacity = '1';
+    }
+    if (polaroidPinnedNotice) polaroidPinnedNotice.classList.add('hidden');
+  }
+
+  function speakSmilePrompt() {
+    if ('speechSynthesis' in window) {
+      try {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance('Smile, Devi Ji!');
+        utterance.rate = 0.9;
+        utterance.pitch = 1.1;
+        utterance.volume = 0.8;
+        window.speechSynthesis.speak(utterance);
+      } catch (e) {}
+    }
+  }
+
+  function triggerCountdownAndSnap() {
+    if (!captureSmileBtn || captureSmileBtn.disabled) return;
+    captureSmileBtn.disabled = true;
+    captureSmileBtn.style.opacity = '0.6';
+
+    if (cameraCountdownOverlay) cameraCountdownOverlay.classList.remove('hidden');
+
+    let count = 3;
+    const whispers = [
+      'Look right here...',
+      '11:47:03 in my heart...',
+      'Say smile, Devi Ji! ✨'
+    ];
+
+    function updateStep() {
+      if (countdownNumber) {
+        countdownNumber.textContent = count;
+        countdownNumber.style.animation = 'none';
+        countdownNumber.offsetHeight;
+        countdownNumber.style.animation = 'countdownPop 0.85s cubic-bezier(0.16, 1, 0.3, 1)';
+      }
+      if (countdownWhisper) {
+        countdownWhisper.textContent = whispers[3 - count] || 'Smile... ♥';
+      }
+
+      triggerHaptic([30, 40]);
+
+      if (count === 1) {
+        speakSmilePrompt();
+      }
+
+      if (count <= 0) {
+        takePolaroidPhoto();
+      } else {
+        count--;
+        setTimeout(updateStep, 950);
+      }
+    }
+
+    updateStep();
+  }
+
+  function takePolaroidPhoto(sourceImg = null) {
+    if (cameraCountdownOverlay) cameraCountdownOverlay.classList.add('hidden');
+
+    // 1. Mechanical Shutter Sound
+    if (window.capsuleAudio) {
+      window.capsuleAudio.playCameraShutterSound();
+    }
+    triggerHaptic([80, 50, 80]);
+
+    // 2. Camera Flash Animation
+    if (cameraFlashOverlay) {
+      cameraFlashOverlay.classList.remove('flashing');
+      cameraFlashOverlay.offsetHeight;
+      cameraFlashOverlay.classList.add('flashing');
+    }
+
+    // 3. Render frame onto polaroid canvas
+    renderPolaroidCanvas(sourceImg);
+
+    // 4. Reveal developed polaroid view
+    setTimeout(() => {
+      if (cameraViewfinderStage) cameraViewfinderStage.classList.add('hidden');
+      const controlsRow = document.getElementById('cameraControlsRow');
+      if (controlsRow) controlsRow.classList.add('hidden');
+      if (polaroidDevelopedStage) polaroidDevelopedStage.classList.remove('hidden');
+      
+      // Trigger romantic heart burst
+      createHeartBurst(window.innerWidth / 2, window.innerHeight * 0.45, 20);
+
+      // Photographic development effect
+      if (polaroidDevelopingOverlay) {
+        polaroidDevelopingOverlay.classList.remove('developed');
+        setTimeout(() => {
+          polaroidDevelopingOverlay.classList.add('developed');
+        }, 300);
+      }
+      stopCamera();
+    }, 450);
+  }
+
+  function renderPolaroidCanvas(sourceImg = null) {
+    if (!polaroidCanvas) return;
+    const ctx = polaroidCanvas.getContext('2d');
+    const w = polaroidCanvas.width;
+    const h = polaroidCanvas.height;
+
+    ctx.clearRect(0, 0, w, h);
+
+    if (sourceImg) {
+      drawImageCover(ctx, sourceImg, 0, 0, w, h);
+    } else if (cameraVideo && cameraVideo.videoWidth > 0) {
+      ctx.save();
+      ctx.translate(w, 0);
+      ctx.scale(-1, 1);
+      drawImageCover(ctx, cameraVideo, 0, 0, w, h);
+      ctx.restore();
+    } else {
+      const grad = ctx.createLinearGradient(0, 0, w, h);
+      grad.addColorStop(0, '#3E1F24');
+      grad.addColorStop(1, '#5C252D');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#FFAFCC';
+      ctx.font = '36px "Caveat", cursive';
+      ctx.textAlign = 'center';
+      ctx.fillText('My Devi Ji ♥', w / 2, h / 2);
+    }
+
+    applyVintageWarmth(ctx, w, h);
+    capturedPolaroidDataUrl = polaroidCanvas.toDataURL('image/png');
+  }
+
+  function drawImageCover(ctx, img, x, y, w, h) {
+    const nw = img.videoWidth || img.naturalWidth || img.width;
+    const nh = img.videoHeight || img.naturalHeight || img.height;
+    if (!nw || !nh) return;
+
+    const aspectImg = nw / nh;
+    const aspectTarget = w / h;
+
+    let sx, sy, sw, sh;
+    if (aspectImg > aspectTarget) {
+      sh = nh;
+      sw = nh * aspectTarget;
+      sx = (nw - sw) / 2;
+      sy = 0;
+    } else {
+      sw = nw;
+      sh = nw / aspectTarget;
+      sx = 0;
+      sy = (nh - sh) / 2;
+    }
+
+    ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
+  }
+
+  function applyVintageWarmth(ctx, w, h) {
+    ctx.fillStyle = 'rgba(255, 175, 204, 0.12)';
+    ctx.fillRect(0, 0, w, h);
+
+    ctx.fillStyle = 'rgba(216, 178, 110, 0.08)';
+    ctx.fillRect(0, 0, w, h);
+
+    const vignette = ctx.createRadialGradient(w / 2, h / 2, w * 0.32, w / 2, h / 2, w * 0.72);
+    vignette.addColorStop(0, 'rgba(0,0,0,0)');
+    vignette.addColorStop(1, 'rgba(30, 15, 20, 0.45)');
+    ctx.fillStyle = vignette;
+    ctx.fillRect(0, 0, w, h);
+  }
+
+  function handlePhotoUpload(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        takePolaroidPhoto(img);
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  if (cameraUploadDirectInput) {
+    cameraUploadDirectInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        handlePhotoUpload(e.target.files[0]);
+      }
+    });
+  }
+
+  if (cameraUploadFallbackInput) {
+    cameraUploadFallbackInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        handlePhotoUpload(e.target.files[0]);
+      }
+    });
+  }
+
+  if (switchCameraBtn) {
+    switchCameraBtn.addEventListener('click', () => {
+      currentCameraFacing = (currentCameraFacing === 'user') ? 'environment' : 'user';
+      triggerHaptic([30, 30]);
+      startCamera();
+    });
+  }
+
+  if (downloadPolaroidBtn) {
+    downloadPolaroidBtn.addEventListener('click', () => {
+      if (!capturedPolaroidDataUrl) return;
+
+      const compCanvas = document.createElement('canvas');
+      compCanvas.width = 700;
+      compCanvas.height = 840;
+      const cCtx = compCanvas.getContext('2d');
+
+      // 1. Polaroid White Frame
+      cCtx.fillStyle = '#FFFDF8';
+      cCtx.fillRect(0, 0, 700, 840);
+      cCtx.strokeStyle = 'rgba(210, 195, 180, 0.6)';
+      cCtx.lineWidth = 2;
+      cCtx.strokeRect(1, 1, 698, 838);
+
+      // 2. Draw captured photo
+      const img = new Image();
+      img.onload = () => {
+        cCtx.drawImage(img, 36, 36, 628, 560);
+
+        // 3. Draw handwritten caption
+        cCtx.fillStyle = '#2A181B';
+        cCtx.font = 'bold 38px "Caveat", cursive';
+        cCtx.textAlign = 'center';
+        cCtx.fillText('My Devi Ji\'s Smile • 21.09.2025 → Forever ♥', 350, 670);
+
+        cCtx.fillStyle = '#786467';
+        cCtx.font = 'italic 24px "Cormorant Garamond", serif';
+        cCtx.fillText('“The person I couldn\'t stop looking at.” — Manish', 350, 730);
+
+        cCtx.font = '18px "Plus Jakarta Sans", sans-serif';
+        cCtx.fillStyle = '#CBB279';
+        cCtx.fillText('Digital Time Capsule • Lake City Mall Memory', 350, 780);
+
+        const link = document.createElement('a');
+        link.download = 'Devi_Ji_Smile_Polaroid_21092025.png';
+        link.href = compCanvas.toDataURL('image/png');
+        link.click();
+        triggerHaptic([50, 80]);
+      };
+      img.src = capturedPolaroidDataUrl;
+    });
+  }
+
+  if (pinPolaroidKeepsakeBtn) {
+    pinPolaroidKeepsakeBtn.addEventListener('click', () => {
+      if (!capturedPolaroidDataUrl) return;
+
+      try {
+        localStorage.setItem('lakshita_polaroid_smile', capturedPolaroidDataUrl);
+      } catch (e) {}
+
+      if (letterPinnedPolaroidCard && letterPolaroidImg) {
+        letterPolaroidImg.src = capturedPolaroidDataUrl;
+        letterPinnedPolaroidCard.classList.remove('hidden');
+      }
+
+      if (polaroidPinnedNotice) {
+        polaroidPinnedNotice.classList.remove('hidden');
+      }
+
+      triggerHaptic([50, 80, 50]);
+      if (window.capsuleAudio) window.capsuleAudio.playSecretChime();
+      createHeartBurst(window.innerWidth / 2, window.innerHeight * 0.6, 16);
+    });
+  }
+
+  if (retakePhotoBtn) {
+    retakePhotoBtn.addEventListener('click', () => {
+      resetToViewfinder();
+      startCamera();
+    });
+  }
+
+  if (openCameraBtn) {
+    openCameraBtn.addEventListener('click', openCameraBooth);
+  }
+  if (screen03CameraBtn) {
+    screen03CameraBtn.addEventListener('click', openCameraBooth);
+  }
+  if (letterPinnedPolaroidCard) {
+    letterPinnedPolaroidCard.addEventListener('click', openCameraBooth);
+  }
+  if (closeCameraBoothBtn) {
+    closeCameraBoothBtn.addEventListener('click', closeCameraBooth);
+  }
+  if (closeCameraModalBackdrop) {
+    closeCameraModalBackdrop.addEventListener('click', closeCameraBooth);
+  }
+  if (captureSmileBtn) {
+    captureSmileBtn.addEventListener('click', triggerCountdownAndSnap);
   }
 
   // Feature 3: Multi-Theme Switcher (Classic Burgundy -> Emerald & Tulip -> White & Lavender)
@@ -356,37 +780,41 @@ document.addEventListener('DOMContentLoaded', () => {
   animatePetals();
 
   // ==========================================================
-  // INTERACTIVE CLICK / TAP BURST (Cute Red & Pink Hearts)
+  // ANIMATA & ANIMASTER INTERACTIVE CLICK / TAP BURST
+  // (Blooming Tulips, Rose Petals, Red/Pink Hearts & Stardust)
   // ==========================================================
   document.addEventListener('click', (e) => {
-    createHeartBurst(e.clientX, e.clientY);
+    // Avoid triggering on inputs
+    if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+    createHeartBurst(e.clientX, e.clientY, 8);
   });
 
-  function createHeartBurst(x, y) {
-    const count = 6;
-    const heartChars = ['♥', '🌸', '💖', '💕'];
+  function createHeartBurst(x, y, count = 10) {
+    const symbols = ['♥', '🌸', '🌷', '✨', '💖', '💕', '✦', '🤍'];
+    const colors = ['#FF4D6D', '#FF758F', '#C9184A', '#E63946', '#FFAFCC', '#D8B26E', '#C084FC'];
+
     for (let i = 0; i < count; i++) {
       const el = document.createElement('div');
-      el.className = 'click-burst-heart';
-      el.textContent = heartChars[Math.floor(Math.random() * heartChars.length)];
+      el.className = 'burst-particle';
+      el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
       
-      const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5);
-      const distance = Math.random() * 45 + 30;
-      const dx = Math.cos(angle) * distance;
-      const dy = Math.sin(angle) * distance - 25;
-      const rot = (Math.random() - 0.5) * 60;
+      const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.7;
+      const distance = Math.random() * 65 + 35;
+      const vx = Math.cos(angle) * distance;
+      const vy = Math.sin(angle) * distance - (Math.random() * 30 + 20); // upward momentum
+      const rot = (Math.random() - 0.5) * 90;
+      const size = Math.floor(Math.random() * 10 + 14);
 
       el.style.left = `${x}px`;
       el.style.top = `${y}px`;
-      el.style.setProperty('--dx', `${dx}px`);
-      el.style.setProperty('--dy', `${dy}px`);
-      el.style.setProperty('--rot', `${rot}deg`);
-      
-      const colors = ['#FF4D6D', '#FF758F', '#C9184A', '#E63946', '#FFAFCC'];
-      el.style.color = colors[Math.floor(Math.random() * colors.length)];
+      el.style.setProperty('--vx', `${vx.toFixed(1)}px`);
+      el.style.setProperty('--vy', `${vy.toFixed(1)}px`);
+      el.style.setProperty('--rot', `${rot.toFixed(1)}deg`);
+      el.style.setProperty('--size', `${size}px`);
+      el.style.setProperty('--color', colors[Math.floor(Math.random() * colors.length)]);
 
       document.body.appendChild(el);
-      setTimeout(() => el.remove(), 1200);
+      setTimeout(() => el.remove(), 1000);
     }
   }
 
@@ -704,6 +1132,7 @@ document.addEventListener('DOMContentLoaded', () => {
       window.capsuleAudio.playSecretChime();
 
       setTimeout(() => {
+        if (screen03CameraBtn) screen03CameraBtn.classList.remove('hidden');
         if (screen03NextBtn) screen03NextBtn.classList.remove('hidden');
       }, 1200);
     });
@@ -1128,7 +1557,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       triggerHaptic([50, 70]);
-      window.capsuleAudio.playSecretChime();
+      if (window.capsuleAudio) window.capsuleAudio.playFlowerPickTone();
       const rect = pickTulipBtn.getBoundingClientRect();
       window.spawnTulipSparks(rect.left + rect.width / 2, rect.top);
 
@@ -1138,7 +1567,7 @@ document.addEventListener('DOMContentLoaded', () => {
           pickTulipBtn.innerHTML = '<span>💐 BOUQUET COMPLETED &hearts;</span>';
           pickTulipBtn.style.opacity = '0.9';
         }
-        createHeartBurst(window.innerWidth / 2, window.innerHeight * 0.5);
+        createHeartBurst(window.innerWidth / 2, window.innerHeight * 0.5, 18);
       }
     });
   }
@@ -1163,7 +1592,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const starNum = star.getAttribute('data-star');
       star.classList.add('connected');
       triggerHaptic([40, 60]);
-      window.capsuleAudio.playSecretChime();
+      if (window.capsuleAudio) window.capsuleAudio.playStarConnectTone();
 
       if (starNum === '1') {
         if (constLine1) constLine1.classList.remove('hidden');
@@ -1359,4 +1788,71 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // ==========================================================
+  // ACETERNITY SPOTLIGHT & AMBIENT CURSOR HALO
+  // ==========================================================
+  const cursorHalo = document.getElementById('cursorHalo');
+  document.addEventListener('pointermove', (e) => {
+    if (cursorHalo) {
+      cursorHalo.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+    }
+    const targetCard = e.target && e.target.closest ? e.target.closest('.tilt-3d-card') : null;
+    if (targetCard) {
+      const rect = targetCard.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      targetCard.style.setProperty('--mouse-x', `${x}px`);
+      targetCard.style.setProperty('--mouse-y', `${y}px`);
+    }
+  });
+
+  // ==========================================================
+  // ACETERNITY SHOOTING STARS / METEOR SHOWER
+  // ==========================================================
+  function spawnMeteor() {
+    const layer = document.getElementById('shootingStarsLayer');
+    if (!layer) return;
+    const meteor = document.createElement('div');
+    meteor.className = 'meteor';
+    const startX = window.innerWidth * 0.25 + Math.random() * (window.innerWidth * 0.75);
+    const startY = Math.random() * (window.innerHeight * 0.4);
+    const duration = (Math.random() * 1.2 + 1.1).toFixed(2);
+    
+    meteor.style.left = `${startX}px`;
+    meteor.style.top = `${startY}px`;
+    meteor.style.animationDuration = `${duration}s`;
+    
+    layer.appendChild(meteor);
+    setTimeout(() => meteor.remove(), parseFloat(duration) * 1000 + 100);
+  }
+
+  setInterval(() => {
+    if (!document.hidden) {
+      spawnMeteor();
+      if (Math.random() > 0.65) {
+        setTimeout(spawnMeteor, 380);
+      }
+    }
+  }, 4200);
+
+  // ==========================================================
+  // ACETERNITY FLOATING DOCK CONTROLLER
+  // ==========================================================
+  const dockButtons = document.querySelectorAll('.dock-item');
+  dockButtons.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const target = parseInt(btn.getAttribute('data-dock-screen'), 10);
+      if (!isNaN(target)) {
+        triggerHaptic([35, 50]);
+        if (window.capsuleAudio) window.capsuleAudio.playBurstChime();
+        const rect = btn.getBoundingClientRect();
+        createHeartBurst(rect.left + rect.width / 2, rect.top, 8);
+        goToScreen(target);
+      }
+    });
+  });
+
+  // Initial sync for Screen 1
+  updateFloatingDock(1);
 });
