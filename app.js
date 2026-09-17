@@ -1216,16 +1216,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const flameWhisperCard = document.getElementById('flameWhisperCard');
 
   if (interactiveFlame && flameWhisperCard) {
-    interactiveFlame.addEventListener('click', () => {
+    const handleFlameWarmth = () => {
       flameWhisperCard.classList.remove('hidden');
       if (candleGlow) {
-        candleGlow.style.filter = 'drop-shadow(0 0 25px rgba(255, 77, 109, 0.9))';
-        candleGlow.style.transform = 'scale(1.25)';
+        candleGlow.classList.add('expanded');
       }
       triggerHaptic([40, 70]);
-      window.capsuleAudio.playFreezeTone();
-      createHeartBurst(window.innerWidth / 2, window.innerHeight * 0.35);
-    });
+      if (window.capsuleAudio) window.capsuleAudio.playBurstChime();
+      createHeartBurst(window.innerWidth / 2, window.innerHeight * 0.35, 14);
+      if (screen06NextBtn) screen06NextBtn.classList.remove('hidden');
+    };
+    interactiveFlame.addEventListener('click', handleFlameWarmth);
+    interactiveFlame.addEventListener('touchstart', handleFlameWarmth, { passive: true });
   }
 
   if (screen06NextBtn) {
@@ -1241,23 +1243,37 @@ document.addEventListener('DOMContentLoaded', () => {
   const screen07NextBtn = document.getElementById('screen07NextBtn');
   let isMended = false;
 
-  function repairKintsugi() {
+  function repairKintsugi(e) {
     if (isMended) return;
     isMended = true;
     if (kintsugiCrack) kintsugiCrack.classList.add('mended');
+    if (kintsugiHeartBox) kintsugiHeartBox.classList.add('heart-mended');
     if (kintsugiHint) {
-      kintsugiHint.textContent = 'Mended with gold & love';
-      kintsugiHint.style.color = '#C9184A';
+      kintsugiHint.innerHTML = '✨ Mended with gold &amp; love forever &hearts;';
+      kintsugiHint.style.color = '#D4AF37';
     }
     triggerHaptic([60, 90, 60]);
-    window.capsuleAudio.playKintsugiChime();
+    if (window.capsuleAudio) window.capsuleAudio.playKintsugiChime();
+    const x = e ? (e.clientX || window.innerWidth / 2) : window.innerWidth / 2;
+    const y = e ? (e.clientY || window.innerHeight * 0.4) : window.innerHeight * 0.4;
+    createHeartBurst(x, y, 22);
     setTimeout(() => {
       if (screen07NextBtn) screen07NextBtn.classList.remove('hidden');
-    }, 1500);
+    }, 1200);
   }
 
   if (kintsugiHeartBox) {
     kintsugiHeartBox.addEventListener('click', repairKintsugi);
+    kintsugiHeartBox.addEventListener('pointermove', (e) => {
+      if (!isMended && e.buttons === 1) {
+        repairKintsugi(e);
+      }
+    });
+    kintsugiHeartBox.addEventListener('touchmove', (e) => {
+      if (!isMended) {
+        repairKintsugi(e.touches[0]);
+      }
+    }, { passive: true });
   }
 
   if (screen07NextBtn) {
@@ -1487,33 +1503,67 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(updateLiveCountdown, 1000);
   updateLiveCountdown();
 
-  // Feature 2: Release Sky Lantern Logic
+  // Feature 2: Interactive Sky Lantern Wish Release Logic
   const releaseLanternBtn = document.getElementById('releaseLanternBtn');
+  const lanternWishModal = document.getElementById('lanternWishModal');
+  const closeLanternWishBtn = document.getElementById('closeLanternWishBtn');
+  const closeLanternModalBackdrop = document.getElementById('closeLanternModalBackdrop');
+  const lanternWishText = document.getElementById('lanternWishText');
+  const sendLanternToSkyBtn = document.getElementById('sendLanternToSkyBtn');
   const skyLanternLayer = document.getElementById('skyLanternLayer');
 
-  if (releaseLanternBtn && skyLanternLayer) {
+  if (releaseLanternBtn && lanternWishModal) {
     releaseLanternBtn.addEventListener('click', () => {
-      // Spawn a floating sky lantern
-      const lantern = document.createElement('div');
-      lantern.className = 'flying-lantern';
-      
-      // Random horizontal position across screen
-      const startX = Math.random() * (window.innerWidth - 80) + 40;
-      const sway = (Math.random() - 0.5) * 160;
-      
-      lantern.style.left = `${startX}px`;
-      lantern.style.setProperty('--sway', `${sway}px`);
-      
-      skyLanternLayer.appendChild(lantern);
+      lanternWishModal.classList.remove('hidden');
+      triggerHaptic([40, 60]);
+      if (lanternWishText) lanternWishText.focus();
+    });
+  }
 
-      triggerHaptic([50, 70, 90]);
-      window.capsuleAudio.playFreezeTone();
-      createHeartBurst(startX, window.innerHeight * 0.7);
+  function closeLanternWish() {
+    if (lanternWishModal) lanternWishModal.classList.add('hidden');
+  }
 
-      // Remove element after animation completes
-      setTimeout(() => {
-        lantern.remove();
-      }, 12500);
+  if (closeLanternWishBtn) closeLanternWishBtn.addEventListener('click', closeLanternWish);
+  if (closeLanternModalBackdrop) closeLanternModalBackdrop.addEventListener('click', closeLanternWish);
+
+  function launchSkyLantern(customWish = '') {
+    if (!skyLanternLayer) return;
+    const lantern = document.createElement('div');
+    lantern.className = 'sky-lantern';
+    
+    const core = document.createElement('div');
+    core.className = 'sky-lantern-core';
+    lantern.appendChild(core);
+
+    if (customWish) {
+      const tag = document.createElement('div');
+      tag.className = 'sky-lantern-tag';
+      tag.textContent = customWish.length > 32 ? `“${customWish.substring(0, 32)}...”` : `“${customWish}”`;
+      lantern.appendChild(tag);
+    }
+
+    const startX = Math.random() * (window.innerWidth - 100) + 50;
+    lantern.style.left = `${startX}px`;
+    const duration = (Math.random() * 4 + 11).toFixed(1);
+    lantern.style.animationDuration = `${duration}s`;
+
+    skyLanternLayer.appendChild(lantern);
+
+    triggerHaptic([50, 70, 90]);
+    if (window.capsuleAudio) window.capsuleAudio.playStarConnectTone();
+    createHeartBurst(startX, window.innerHeight * 0.75, 16);
+
+    setTimeout(() => {
+      lantern.remove();
+    }, parseFloat(duration) * 1000 + 500);
+  }
+
+  if (sendLanternToSkyBtn) {
+    sendLanternToSkyBtn.addEventListener('click', () => {
+      const wish = lanternWishText ? (lanternWishText.value || '').trim() : '';
+      closeLanternWish();
+      launchSkyLantern(wish || 'Forever & in every fight with gold ♥');
     });
   }
 
@@ -1673,10 +1723,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (ribbonKnot && vowsCard) {
     ribbonKnot.addEventListener('click', () => {
-      if (ribbonWrap) ribbonWrap.style.opacity = '0.3';
+      ribbonKnot.style.transform = 'scale(0) rotate(180deg)';
+      ribbonKnot.style.opacity = '0';
+      setTimeout(() => {
+        if (ribbonWrap) ribbonWrap.style.display = 'none';
+      }, 300);
       vowsCard.classList.remove('hidden');
       triggerHaptic([80, 50, 100, 50, 120]);
-      window.capsuleAudio.playSecretChime();
+      if (window.capsuleAudio) window.capsuleAudio.playSecretChime();
+      createHeartBurst(window.innerWidth / 2, window.innerHeight * 0.5, 24);
       triggerGrandCelebration();
     });
   }

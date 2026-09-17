@@ -462,10 +462,13 @@
     <section id="screen06" class="capsule-screen">
       <div class="screen-inner quiet-screen">
         <div class="quiet-vignette tilt-3d-card" data-tilt="true">
-          <div class="solitary-flame" id="interactiveFlame" title="Touch the flame gently">
+          <div class="solitary-flame" id="interactiveFlame" title="Touch and hold the flame gently">
+            <div class="candle-base-stand"></div>
+            <div class="candle-wax-pillar"></div>
             <div class="candle-wick"></div>
+            <div class="candle-flame-core"></div>
             <div class="candle-glow" id="candleGlow"></div>
-            <span class="flame-touch-hint">touch flame gently</span>
+            <span class="flame-touch-hint">touch and hold flame gently</span>
           </div>
 
           <!-- Interactive Flame Reassurance Whisper Card -->
@@ -1430,6 +1433,29 @@
         </div>
       </div>
 
+    </div>
+  </div>
+
+  <!-- Feature: Sky Lantern Wish Modal -->
+  <div id="lanternWishModal" class="lantern-wish-modal hidden" role="dialog" aria-modal="true" aria-labelledby="lanternModalTitle">
+    <div class="lantern-modal-backdrop" id="closeLanternModalBackdrop"></div>
+    <div class="lantern-wish-dialog tilt-3d-card" data-tilt="true">
+      <div class="border-beam"></div>
+      <button class="vault-close-btn" id="closeLanternWishBtn" aria-label="Close Wish">&times;</button>
+      <div class="lantern-dialog-header">
+        <span class="lantern-icon-large">🏮</span>
+        <span class="lantern-badge-pill">Udaipur Night Sky &bull; 21.09.2026</span>
+        <h3 id="lanternModalTitle" class="lantern-dialog-title">Make a Wish for Us</h3>
+        <p class="lantern-dialog-sub">&ldquo;Whatever your heart holds for our tomorrows, send it up into the stars.&rdquo;</p>
+      </div>
+      <div class="lantern-wish-input-wrap">
+        <textarea id="lanternWishText" class="lantern-wish-textarea" placeholder="May we always look at each other like 11:47:03 at Lake City Mall, surviving every fight with gold..."></textarea>
+      </div>
+      <div class="lantern-dialog-actions">
+        <button type="button" id="sendLanternToSkyBtn" class="capsule-btn romance-btn lantern-send-btn">
+          <span>🏮 RELEASE INTO THE NIGHT SKY</span>
+        </button>
+      </div>
     </div>
   </div>
 
